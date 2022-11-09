@@ -2,5 +2,7 @@
     <string name="app_name">PacGamesAndroid</string>
     <string name="button_addGame">Add Game</string>
     <string name="hint_gameTitle">Game Title</string>
-    <string name="hint_gameDescription">Description </string>
+    <string name="hint_gameDescription">Description</string>
+    <string name="menu_addGame">Add</string>
+    <string name="menu_cancelGame">Cancel</string>
 </resources>
