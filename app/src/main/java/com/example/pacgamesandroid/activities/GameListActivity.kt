@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pacgamesandroid.R
 import com.example.pacgamesandroid.databinding.ActivityGameListBinding
 import com.example.pacgamesandroid.main.MainApp
-import org.wit.placemark.adapters.GameAdapter
+import com.example.pacgamesandroid.adapters.GameAdapter
+import com.example.pacgamesandroid.adapters.GameListener
+import com.example.pacgamesandroid.models.GameModel
 
 
-class GameListActivity : AppCompatActivity() {
+class GameListActivity : AppCompatActivity(), GameListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGameListBinding
 
@@ -27,9 +29,10 @@ class GameListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = GameAdapter(app.games)
+        binding.recyclerView.adapter = GameAdapter(app.games.findAll(), this)
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,8 +56,25 @@ class GameListActivity : AppCompatActivity() {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.games.size)
+                notifyItemRangeChanged(0,app.games.findAll().size)
             }
         }
+
+    override fun onGameClick(game: GameModel) {
+        val launcherIntent = Intent(this, MainActivity::class.java)
+        launcherIntent.putExtra("game_edit", game)
+        getClickResult.launch(launcherIntent)
+    }
+
+    private val getClickResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                (binding.recyclerView.adapter)?.
+                notifyItemRangeChanged(0,app.games.findAll().size)
+            }
+        }
+
 }
 

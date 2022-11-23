@@ -1,51 +1,100 @@
 package com.example.pacgamesandroid.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.pacgamesandroid.R
+import com.example.pacgamesandroid.databinding.ActivityGameListBinding
 import com.example.pacgamesandroid.databinding.ActivityMainBinding
+import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.GameModel
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import timber.log.Timber
 import timber.log.Timber.i
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
     lateinit var app: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var edit = false
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
 
-
         app = application as MainApp
-        i("Game Activity started...")
+
+        i("Main Activity started...")
+
+        if (intent.hasExtra("game_edit")) {
+            edit = true
+            game = intent.extras?.getParcelable("game_edit")!!
+            binding.gameTitle.setText(game.title)
+            binding.description.setText(game.description)
+            binding.btnAdd.setText(R.string.save_game)
+            Picasso.get()
+                .load(game.image)
+                .into(binding.gameImage)
+            if (game.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_game_image)
+            }
+        }
 
         binding.btnAdd.setOnClickListener() {
             game.title = binding.gameTitle.text.toString()
             game.description = binding.description.text.toString()
-            if (game.title.isNotEmpty()) {
-                app.games.add(game.copy())
-                i("add Button Pressed: $game")
-                for (i in app.games.indices) {
-                    i("Game[$i]:${this.app.games[i]}")
-                }
-                setResult(RESULT_OK)
-                finish()
-            }
-            else {
-                Snackbar.make(it,"Please Enter a title", Snackbar.LENGTH_LONG)
+            if (game.title.isEmpty()) {
+                Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
                     .show()
+            } else {
+                if (edit) {
+                    app.games.update(game.copy())
+                } else {
+                    app.games.create(game.copy())
+                }
             }
+            i("add Button Pressed: $game")
+            setResult(RESULT_OK)
+            finish()
         }
+
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+        registerImagePickerCallback()
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            game.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(game.image)
+                                .into(binding.gameImage)
+                            binding.chooseImage.setText(R.string.change_game_image)
+                        }// end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

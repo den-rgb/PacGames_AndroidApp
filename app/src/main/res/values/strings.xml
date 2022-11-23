@@ -5,4 +5,9 @@
     <string name="hint_gameDescription">Description</string>
     <string name="menu_addGame">Add</string>
     <string name="menu_cancelGame">Cancel</string>
+    <string name="enter_game_title"> Please enter a Game Title </string>
+    <string name="save_game"> Save Game </string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_game_image">Select game image</string>
+    <string name="change_game_image">Change game image</string>
 </resources>
