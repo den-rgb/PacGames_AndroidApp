@@ -19,9 +19,12 @@ import com.squareup.picasso.Picasso
 import timber.log.Timber
 import timber.log.Timber.i
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
     lateinit var app: MainApp
 
@@ -74,7 +77,15 @@ class MainActivity : AppCompatActivity() {
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
         }
+
         registerImagePickerCallback()
+
+        binding.shopLocation.setOnClickListener {
+            val launcherIntent = Intent(this, MapActivity::class.java)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
+        registerMapCallback()
     }
 
     private fun registerImagePickerCallback() {
@@ -95,6 +106,12 @@ class MainActivity : AppCompatActivity() {
                     RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { i("Map Loaded") }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
