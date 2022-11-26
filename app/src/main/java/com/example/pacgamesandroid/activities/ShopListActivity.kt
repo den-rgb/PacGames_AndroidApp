@@ -9,28 +9,28 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pacgamesandroid.R
-import com.example.pacgamesandroid.databinding.ActivityGameListBinding
+import com.example.pacgamesandroid.databinding.ActivityShopListBinding
 import com.example.pacgamesandroid.main.MainApp
-import com.example.pacgamesandroid.adapters.GameAdapter
-import com.example.pacgamesandroid.adapters.GameListener
-import com.example.pacgamesandroid.models.GameModel
+import com.example.pacgamesandroid.adapters.ShopAdapter
+import com.example.pacgamesandroid.adapters.ShopListener
+import com.example.pacgamesandroid.models.ShopModel
 
 
 
-class GameListActivity : AppCompatActivity(), GameListener {
+class ShopListActivity : AppCompatActivity(), ShopListener {
     lateinit var app: MainApp
-    private lateinit var binding: ActivityGameListBinding
+    private lateinit var binding: ActivityShopListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGameListBinding.inflate(layoutInflater)
+        binding = ActivityShopListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         app = application as MainApp
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = GameAdapter(app.games.findAll(), this)
+        binding.recyclerView.adapter = ShopAdapter(app.shops.findAll(), this)
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
 
@@ -57,13 +57,13 @@ class GameListActivity : AppCompatActivity(), GameListener {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.games.findAll().size)
+                notifyItemRangeChanged(0,app.shops.findAll().size)
             }
         }
 
-    override fun onGameClick(game: GameModel) {
+    override fun onShopClick(shop: ShopModel) {
         val launcherIntent = Intent(this, MainActivity::class.java)
-        launcherIntent.putExtra("game_edit", game)
+        launcherIntent.putExtra("shop_edit", shop)
         getClickResult.launch(launcherIntent)
     }
 
@@ -73,7 +73,7 @@ class GameListActivity : AppCompatActivity(), GameListener {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.games.findAll().size)
+                notifyItemRangeChanged(0,app.shops.findAll().size)
             }
         }
 
