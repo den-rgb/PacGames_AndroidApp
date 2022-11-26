@@ -1,5 +1,6 @@
 package com.example.pacgamesandroid.activities
 
+
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.example.pacgamesandroid.databinding.ActivityMainBinding
 import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.GameModel
+import com.example.pacgamesandroid.models.Location
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import timber.log.Timber
@@ -23,7 +25,7 @@ import timber.log.Timber.i
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
-
+    var location = arrayOf(Location(53.286029, -6.24168, 25f), Location( 53.22027,-6.6596, 25f), Location(53.45375, -6.21923, 25f), Location(52.35314, -7.70071, 25f), Location(52.26016, -7.10993, 15f),Location(52.25998, -7.11081, 15f))
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
     lateinit var app: MainApp
@@ -81,8 +83,11 @@ class MainActivity : AppCompatActivity() {
         registerImagePickerCallback()
 
         binding.shopLocation.setOnClickListener {
-            val launcherIntent = Intent(this, MapActivity::class.java)
-            mapIntentLauncher.launch(launcherIntent)
+            for (i in location) {
+                val launcherIntent = Intent(this, MapActivity::class.java)
+                    .putExtra("location", i)
+                mapIntentLauncher.launch(launcherIntent)
+            }
         }
 
         registerMapCallback()

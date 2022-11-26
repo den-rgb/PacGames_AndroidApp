@@ -27,6 +27,7 @@
         <activity
                 android:name=".activities.GameListActivity"
                 android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -46,3 +47,6 @@
     </application>
 
 </manifest>
+
+
+
