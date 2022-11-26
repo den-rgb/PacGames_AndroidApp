@@ -6,4 +6,8 @@
             android:id="@+id/item_cancel"
             android:title="@string/menu_cancelGame"
             app:showAsAction="always"/>
+    <item
+            android:id="@+id/game_add"
+            android:title="@string/menu_addGame"
+            app:showAsAction="always"/>
 </menu>

@@ -2,7 +2,7 @@
     <string name="app_name">PacGamesAndroid</string>
     <string name="button_addGame">Add Game</string>
     <string name="hint_gameTitle">Game Title</string>
-    <string name="hint_gameDescription">Description</string>
+    <string name="hint_gamePrice">Price</string>
     <string name="menu_addGame">Add</string>
     <string name="menu_cancelGame">Cancel</string>
     <string name="enter_game_title">Please enter a Game Title</string>
@@ -12,4 +12,20 @@
     <string name="change_game_image">Change game image</string>
     <string name="button_location">Set shop Location</string>
     <string name="title_activity_map">MapActivity</string>
+
+    <string-array name="shop_locations">
+        <item>Dundrum</item>
+        <item>Naas</item>
+        <item>Swords</item>
+        <item>Clonmel</item>
+        <item>Waterford</item>
+    </string-array>
+
+    <string-array name="game_genres">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Sport</item>
+        <item>Puzzle</item>
+        <item>Shooter</item>
+    </string-array>
 </resources>

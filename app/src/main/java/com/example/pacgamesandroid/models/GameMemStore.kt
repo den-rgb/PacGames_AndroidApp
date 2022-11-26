@@ -26,7 +26,9 @@ class GameMemStore : GameStore {
         var foundGame: GameModel? = games.find { p -> p.id == game.id }
         if (foundGame != null) {
             foundGame.title = game.title
-            foundGame.description = game.description
+            foundGame.price = game.price
+            foundGame.genre = game.genre
+            foundGame.location = game.location
             foundGame.image = game.image
             logAll()
         }

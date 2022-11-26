@@ -31,7 +31,9 @@ class GameAdapter constructor(private var games: List<GameModel>, private val li
 
         fun bind(game: GameModel, listener: GameListener) {
             binding.gameTitle.text = game.title
-            binding.description.text = game.description
+            binding.gamePrice.text = game.price
+            binding.gameGenre.text = game.genre
+            binding.shopLocation.text = game.location
             Picasso.get().load(game.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onGameClick(game) }
         }
