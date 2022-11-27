@@ -1,7 +1,6 @@
 package com.example.pacgamesandroid.models
 
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pacgamesandroid.R
 import timber.log.Timber.i
 
 
@@ -14,7 +13,7 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
         Location(52.25998, -7.11081, 15f)
     )
 
-    var shopNames = arrayOf("Dundrum","Naas","Swords","Kildare","Clonmel","Wterford")
+    var shopNames = arrayOf("Dundrum","Naas","Swords","Kildare","Clonmel","Waterford")
 
     override fun findAll(): List<ShopModel> {
         return shops
@@ -29,6 +28,7 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
             shop.id = getId()
             shop.title = shopNames[i]
             i += 1
+            shop.games
             shop.coordinates = s.lat.toString() + " " + s.lng.toString()
             shops.add(shop)
             logAll()

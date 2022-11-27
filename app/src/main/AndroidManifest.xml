@@ -23,6 +23,9 @@
         <activity android:name=".activities.ShopListActivity"
                   android:exported="false"
                   android:label="@string/title_activity_shop"/>
+        <activity android:name=".activities.ShopEditActivity"
+                  android:exported="false"
+                  android:label="@string/title_activity_editShop"/>
         <activity
                 android:name=".activities.MapActivity"
                 android:exported="false"

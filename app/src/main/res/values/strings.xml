@@ -13,7 +13,8 @@
     <string name="change_game_image">Change game image</string>
     <string name="button_location">Set shop Location</string>
     <string name="title_activity_map">MapActivity</string>
-    <string name="title_activity_shop">MapActivity</string>
+    <string name="title_activity_shop">Gamestops</string>
+    <string name="title_activity_editShop">Gamestops</string>
 
 
     <string-array name="game_genres">
