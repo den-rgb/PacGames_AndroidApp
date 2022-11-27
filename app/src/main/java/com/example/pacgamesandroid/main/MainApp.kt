@@ -9,7 +9,7 @@ import timber.log.Timber.i
 
 class MainApp : Application() {
     val games = GameMemStore()
-    val shops = ShopMemStore()
+//    val shops = ShopMemStore()
 
     override fun onCreate() {
         super.onCreate()
