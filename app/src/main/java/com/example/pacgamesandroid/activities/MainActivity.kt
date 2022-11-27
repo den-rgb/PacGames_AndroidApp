@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val shop_loc = resources.getStringArray(R.array.shop_locations)
-        val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
-        binding.autoCompleteTextView.setAdapter(locAdapter)
+//        val shop_loc = resources.getStringArray(R.array.shop_locations)
+//        val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
+//        binding.autoCompleteTextView.setAdapter(locAdapter)
 
         val game_genre = resources.getStringArray(R.array.game_genres)
         val genreAdapter = ArrayAdapter(this, R.layout.dropdown_item, game_genre)
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             game.title = binding.gameTitle.text.toString()
             game.price = binding.price.text.toString()
             game.genre = binding.autoCompleteTextView2.text.toString()
-            game.location = binding.autoCompleteTextView.text.toString()
+//            game.location = binding.autoCompleteTextView.text.toString()
             if (game.title.isEmpty()) {
                     Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
                         .show()

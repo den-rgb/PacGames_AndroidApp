@@ -28,10 +28,14 @@ class GameMemStore : GameStore {
             foundGame.title = game.title
             foundGame.price = game.price
             foundGame.genre = game.genre
-            foundGame.location = game.location
             foundGame.image = game.image
             logAll()
         }
+    }
+
+    override fun delete(game: GameModel) {
+        var foundGame: GameModel? = games.find { p -> p.id == game.id }
+        games.remove(foundGame)
     }
 
     fun logAll() {

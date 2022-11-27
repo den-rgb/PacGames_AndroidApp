@@ -9,7 +9,6 @@ data class GameModel(var id: Long = 0,
                      var title: String = "",
                      var price: String = "",
                      var genre: String = "",
-                     var location: String = "",
                      var image: Uri = Uri.EMPTY) : Parcelable {
 }
 

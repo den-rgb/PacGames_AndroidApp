@@ -67,6 +67,15 @@ class GameListActivity : AppCompatActivity(), GameListener {
         getClickResult.launch(launcherIntent)
     }
 
+    override fun onDelete(game: GameModel){
+        app.games.delete(game)
+        overridePendingTransition(0, 0);
+        finish()
+        overridePendingTransition(0, 0);
+        startActivity(getIntent())
+        overridePendingTransition(0, 0);
+    }
+
     private val getClickResult =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
