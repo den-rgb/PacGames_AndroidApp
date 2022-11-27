@@ -47,6 +47,10 @@ class GameListActivity : AppCompatActivity(), GameListener {
                 val launcherIntent = Intent(this, MainActivity::class.java)
                 getResult.launch(launcherIntent)
             }
+            R.id.go_shops -> {
+                val launcherIntent = Intent(this, ShopListActivity::class.java)
+                getResult.launch(launcherIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -65,6 +69,15 @@ class GameListActivity : AppCompatActivity(), GameListener {
         val launcherIntent = Intent(this, MainActivity::class.java)
         launcherIntent.putExtra("game_edit", game)
         getClickResult.launch(launcherIntent)
+    }
+
+    override fun onDelete(game: GameModel){
+        app.games.delete(game)
+        overridePendingTransition(0, 0);
+        finish()
+        overridePendingTransition(0, 0);
+        startActivity(getIntent())
+        overridePendingTransition(0, 0);
     }
 
     private val getClickResult =

@@ -40,7 +40,7 @@
                 tools:text="A Title" />
 
         <TextView
-                android:id="@+id/description"
+                android:id="@+id/gamePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -49,7 +49,43 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/gameTitle"
-                tools:text="A Description" />
+                tools:text="Price" />
+
+        <TextView
+                android:id="@+id/gameGenre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAlignment="viewStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintStart_toEndOf="@+id/imageIcon"
+                app:layout_constraintTop_toBottomOf="@id/gamePrice"
+                tools:text="Genre" />
+
+        <TextView
+                android:id="@+id/shopLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAlignment="viewStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintStart_toEndOf="@+id/imageIcon"
+                app:layout_constraintTop_toBottomOf="@id/gameGenre"
+                tools:text="Location" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true" app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                android:id="@+id/deleteGame"
+                app:layout_constrainedHeight="false"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="35dp"
+                android:layout_marginStart="173dp" app:layout_constraintStart_toEndOf="@+id/shopLocation"
+                android:layout_marginEnd="34dp" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

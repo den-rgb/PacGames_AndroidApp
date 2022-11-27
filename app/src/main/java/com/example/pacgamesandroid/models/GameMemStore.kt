@@ -26,10 +26,16 @@ class GameMemStore : GameStore {
         var foundGame: GameModel? = games.find { p -> p.id == game.id }
         if (foundGame != null) {
             foundGame.title = game.title
-            foundGame.description = game.description
+            foundGame.price = game.price
+            foundGame.genre = game.genre
             foundGame.image = game.image
             logAll()
         }
+    }
+
+    override fun delete(game: GameModel) {
+        var foundGame: GameModel? = games.find { p -> p.id == game.id }
+        games.remove(foundGame)
     }
 
     fun logAll() {

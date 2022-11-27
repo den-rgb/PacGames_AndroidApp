@@ -32,7 +32,7 @@ class ShopAdapter constructor(private var shops: List<ShopModel>, private val li
 
         fun bind(shop: ShopModel, listener: ShopListener) {
             binding.shopTitle.text = shop.title
-            binding.description.text = shop.description
+            binding.shopLocation.text = shop.coordinates
             binding.root.setOnClickListener { listener.onShopClick(shop) }
         }
     }

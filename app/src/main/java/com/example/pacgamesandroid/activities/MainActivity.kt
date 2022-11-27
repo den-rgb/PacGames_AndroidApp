@@ -5,13 +5,17 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.pacgamesandroid.R
-import com.example.pacgamesandroid.databinding.ActivityGameListBinding
 import com.example.pacgamesandroid.databinding.ActivityMainBinding
+
+
 import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.GameModel
@@ -25,20 +29,25 @@ import timber.log.Timber.i
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
-    var location = arrayOf(Location(53.286029, -6.24168, 25f), Location( 53.22027,-6.6596, 25f), Location(53.45375, -6.21923, 25f), Location(52.35314, -7.70071, 25f), Location(52.26016, -7.10993, 15f),Location(52.25998, -7.11081, 15f))
+
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
     lateinit var app: MainApp
-
+    var edit = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var edit = false
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarAdd.title = title
-        setSupportActionBar(binding.toolbarAdd)
+//        val shop_loc = resources.getStringArray(R.array.shop_locations)
+//        val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
+//        binding.autoCompleteTextView.setAdapter(locAdapter)
+
+        val game_genre = resources.getStringArray(R.array.game_genres)
+        val genreAdapter = ArrayAdapter(this, R.layout.dropdown_item, game_genre)
+        binding.autoCompleteTextView2.setAdapter(genreAdapter)
 
         app = application as MainApp
 
@@ -48,8 +57,8 @@ class MainActivity : AppCompatActivity() {
             edit = true
             game = intent.extras?.getParcelable("game_edit")!!
             binding.gameTitle.setText(game.title)
-            binding.description.setText(game.description)
-            binding.btnAdd.setText(R.string.save_game)
+            binding.price.setText(game.price)
+
             Picasso.get()
                 .load(game.image)
                 .into(binding.gameImage)
@@ -58,12 +67,28 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnAdd.setOnClickListener() {
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+
+        registerImagePickerCallback()
+
+//        binding.shopLocation.setOnClickListener {
+//            for (i in location) {
+//                val launcherIntent = Intent(this, MapActivity::class.java)
+//                    .putExtra("location", i)
+//                mapIntentLauncher.launch(launcherIntent)
+//            }
+//        }
+
+        binding.gameAdd.setOnClickListener {
             game.title = binding.gameTitle.text.toString()
-            game.description = binding.description.text.toString()
+            game.price = binding.price.text.toString()
+            game.genre = binding.autoCompleteTextView2.text.toString()
+//            game.location = binding.autoCompleteTextView.text.toString()
             if (game.title.isEmpty()) {
-                Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
-                    .show()
+                    Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
+                        .show()
             } else {
                 if (edit) {
                     app.games.update(game.copy())
@@ -76,19 +101,11 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.chooseImage.setOnClickListener {
-            showImagePicker(imageIntentLauncher)
+        binding.itemCancel.setOnClickListener {
+            finish()
         }
 
-        registerImagePickerCallback()
 
-        binding.shopLocation.setOnClickListener {
-            for (i in location) {
-                val launcherIntent = Intent(this, MapActivity::class.java)
-                    .putExtra("location", i)
-                mapIntentLauncher.launch(launcherIntent)
-            }
-        }
 
         registerMapCallback()
     }
@@ -119,17 +136,5 @@ class MainActivity : AppCompatActivity() {
             { i("Map Loaded") }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_game, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_cancel -> {
-                finish()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

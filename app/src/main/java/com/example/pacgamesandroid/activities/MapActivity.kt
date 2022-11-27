@@ -20,7 +20,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapBinding
-    private var location = arrayOf(Location(53.286029, -6.24168, 25f), Location( 53.22027,-6.6596, 25f), Location(53.45375, -6.21923, 25f), Location(52.35314, -7.70071, 25f), Location(52.26016, -7.10993, 15f))
+    private var location = arrayOf(Location(53.286029, -6.24168, 15f), Location( 53.22027,-6.6596, 15f), Location(53.45375, -6.21923, 15f), Location(52.35314, -7.70071, 15f), Location(52.26016, -7.10993, 15f))
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

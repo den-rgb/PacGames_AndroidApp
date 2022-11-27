@@ -7,8 +7,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class GameModel(var id: Long = 0,
                      var title: String = "",
-                     var description: String = "",
-                     var image: Uri = Uri.EMPTY) : Parcelable
+                     var price: String = "",
+                     var genre: String = "",
+                     var image: Uri = Uri.EMPTY) : Parcelable {
+}
 
 //@Parcelize
 //data class Location(var lat: Double = 0.0,
