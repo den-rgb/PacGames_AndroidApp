@@ -29,7 +29,7 @@ import timber.log.Timber.i
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
-    var location = arrayOf(Location(53.286029, -6.24168, 15f), Location( 53.22027,-6.6596, 15f), Location(53.45375, -6.21923, 15f), Location(52.35314, -7.70071, 15f), Location(52.26016, -7.10993, 15f),Location(52.25998, -7.11081, 15f))
+
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
     lateinit var app: MainApp

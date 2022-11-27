@@ -47,6 +47,10 @@ class GameListActivity : AppCompatActivity(), GameListener {
                 val launcherIntent = Intent(this, MainActivity::class.java)
                 getResult.launch(launcherIntent)
             }
+            R.id.go_shops -> {
+                val launcherIntent = Intent(this, ShopListActivity::class.java)
+                getResult.launch(launcherIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -8,4 +8,9 @@
             android:title="@string/menu_addGame"
             app:showAsAction="always" />
 
+    <item
+            android:id="@+id/go_shops"
+            android:title="@string/menu_goShop"
+            app:showAsAction="always" />
+
 </menu>

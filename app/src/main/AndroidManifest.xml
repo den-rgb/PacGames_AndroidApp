@@ -20,6 +20,9 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="${MAPS_API_KEY}" />
 
+        <activity android:name=".activities.ShopListActivity"
+                  android:exported="false"
+                  android:label="@string/title_activity_shop"/>
         <activity
                 android:name=".activities.MapActivity"
                 android:exported="false"
@@ -27,6 +30,8 @@
         <activity
                 android:name=".activities.GameListActivity"
                 android:exported="true">
+
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
