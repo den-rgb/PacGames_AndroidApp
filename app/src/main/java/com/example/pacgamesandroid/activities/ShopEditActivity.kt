@@ -44,6 +44,8 @@ class ShopEditActivity : AppCompatActivity() {
     var game = GameModel()
     lateinit var app: MainApp
     var edit = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,7 +59,10 @@ class ShopEditActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView2.layoutManager = layoutManager
         binding.recyclerView2.adapter = ShopEditAdapter(app.shops.findAll())
-
+        var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
+        var shopList = app.shops.shops
+        var index = app.shops.shops.indexOf(chosen)
+        binding.locationText.text = shopList[index].title
 //            val shop_loc = resources.getStringArray()
 //            val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
 //            binding.autoCompleteTextView.setAdapter(locAdapter)
@@ -82,19 +87,26 @@ class ShopEditActivity : AppCompatActivity() {
 
 
         binding.addGame.setOnClickListener {
-            var shopList = app.shops.shops
             var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
+            var shopList = app.shops.shops
             var index = app.shops.shops.indexOf(chosen)
+            var chosenGame = gameStore.findByName(binding.gameBox.text.toString())
 //            println("index ${index} chosen ${chosen}")
 //            for (i in app.shops.shops){
 //            println("shopList ${i}")}
-            var chosenGame = gameStore.findByName(binding.gameBox.text.toString())
+
             shopList[index].games.add(chosenGame)
 ////            game.location = binding.autoCompleteTextView.text.toString()
 //            println("shop size $shopList[index].games[shopList[index].games.size].quantity= binding.quantiyInput.text.toString().toInt(){app.shops.shops[index].games.size}")
 //            println("===========")
 //            print("listSize ${shopList[index].games[shopList[index].games.size-1]}")
-            shopList[index].games[shopList[index].games.size-1].quantity= binding.quantiyInput.text.toString().toInt()
+            var recent = shopList[index].games[shopList[index].games.size-1]
+            recent.quantity= binding.quantiyInput.text.toString().toInt()
+            recent.title = binding.gameBox.text.toString()
+            recent.genre = chosenGame.genre
+            recent.price = chosenGame.price
+            recent.id = chosenGame.id
+            recent.image = chosenGame.image
 //            println("quantity ${app.shops.shops[index].games[shopStore.shops[index].games.size-1].quantity}")
             setResult(RESULT_OK)
             finish()
