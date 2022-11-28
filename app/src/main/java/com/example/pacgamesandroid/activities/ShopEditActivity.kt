@@ -14,7 +14,10 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pacgamesandroid.R
+import com.example.pacgamesandroid.adapters.ShopAdapter
+import com.example.pacgamesandroid.adapters.ShopEditAdapter
 import com.example.pacgamesandroid.databinding.ActivityMainBinding
 import com.example.pacgamesandroid.databinding.CardShopBinding
 import com.example.pacgamesandroid.databinding.CardShopeditBinding
@@ -34,11 +37,13 @@ import timber.log.Timber.i
 
 class ShopEditActivity : AppCompatActivity() {
     private lateinit var binding: CardShopeditBinding
+    private lateinit var binding2: ActivityShopEditBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
 
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
-    var game = GameMemStore()
+    var gameStore = GameMemStore()
     var shop = ShopModel()
+    var game = GameModel()
     lateinit var app: MainApp
     var edit = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,9 +52,13 @@ class ShopEditActivity : AppCompatActivity() {
 
 
         binding = CardShopeditBinding.inflate(layoutInflater)
+        binding2 = ActivityShopEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
         app = application as MainApp
 
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView2.layoutManager = layoutManager
+        binding.recyclerView2.adapter = ShopEditAdapter(app.shops.findAll())
 
 //            val shop_loc = resources.getStringArray()
 //            val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
@@ -57,7 +66,6 @@ class ShopEditActivity : AppCompatActivity() {
         //ArrayAdapter<GameModel>() gameAdapter = new ArrayAdapter<GameModel>(this, R.layout.dropdown_item, shop.games)
 
         val gameAdapter = ArrayAdapter(this, R.layout.dropdown_item, app.games.findAllNames())
-
         binding.gameBox.setAdapter(gameAdapter)
 
 
@@ -75,7 +83,17 @@ class ShopEditActivity : AppCompatActivity() {
 //        }
 
 
-        binding.addGame.setOnClickListener { println(app.games.findAll()) }
+        binding.addGame.setOnClickListener {
+
+//            game.location = binding.autoCompleteTextView.text.toString()
+            shop.games.add(gameStore.findByName(binding.gameBox.text.toString()))
+            println(shop.games.size)
+            println("===========")
+            shop.games[shop.games.size-1].quantity = binding.quantiyInput.text.toString().toInt()
+            println(shop.games[shop.games.size-1].quantity)
+            setResult(RESULT_OK)
+            finish()
+        }
 
 
 

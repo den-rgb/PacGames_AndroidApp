@@ -6,10 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class GameModel(var id: Long = 0,
-                     var title: String = "",
-                     var price: String = "",
-                     var genre: String = "",
-                     var image: Uri = Uri.EMPTY) : Parcelable {
+                         var title: String = "",
+                         var price: String = "",
+                         var genre: String = "",
+                         var quantity: Int = 0,
+                         var image: Uri = Uri.EMPTY) : Parcelable {
 }
 
 //@Parcelize

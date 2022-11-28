@@ -23,11 +23,11 @@ import com.example.pacgamesandroid.models.ShopModel
 
 class ShopListActivity : AppCompatActivity(), ShopListener {
     lateinit var app: MainApp
-    private lateinit var binding: CardShopBinding
+    private lateinit var binding: ActivityGameListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = CardShopBinding.inflate(layoutInflater)
+        binding = ActivityGameListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         app = application as MainApp
@@ -36,8 +36,8 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = ShopAdapter(app.shops.findAll(), this)
 
+        if (app.shops.shops.size == 0) app.shops.create()
 
-        app.shops.create()
     }
 
     private val getResult =

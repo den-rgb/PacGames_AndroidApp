@@ -13,7 +13,7 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
         Location(52.25998, -7.11081, 15f)
     )
 
-    var shopNames = arrayOf("Dundrum","Naas","Swords","Kildare","Clonmel","Waterford")
+    var shopNames = arrayOf("Dundrum","Naas","Swords","Newbridge","Clonmel","Waterford")
 
     override fun findAll(): List<ShopModel> {
         return shops
@@ -24,17 +24,17 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
     override fun create(){
 
         var i = 0
-        for (s in location) {
 
+        for (s in location.indices) {
             val shop = ShopModel()
             shop.id = getId()
             shop.title = shopNames[i]
             i += 1
             shop.games
-            shop.coordinates = s.lat.toString() + " " + s.lng.toString()
+            shop.coordinates = location[s].lat.toString() + " " + location[s].lng.toString()
             shops.add(shop)
-            logAll()
         }
+        logAll()
     }
 
     override fun update(shop: ShopModel) {

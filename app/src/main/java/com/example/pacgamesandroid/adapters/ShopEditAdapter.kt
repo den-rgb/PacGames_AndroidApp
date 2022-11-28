@@ -10,10 +10,8 @@ import com.example.pacgamesandroid.models.ShopModel
 
 
 
-interface ShopEditListener {
-    fun onShopClick(shop: ShopModel)
-}
-class ShopEditAdapter constructor(private var shops: List<ShopModel>, private val listener: ShopEditListener) :
+
+class ShopEditAdapter constructor(private var shops: List<ShopModel>) :
     RecyclerView.Adapter<ShopEditAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -33,13 +31,12 @@ class ShopEditAdapter constructor(private var shops: List<ShopModel>, private va
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shop: ShopModel) {
-
-//            for (g in shop.games!!) {
-//                binding.gameTitle.text = g.title
-//                binding.price.text = g.price
-//                binding.gameGenre.text = g.genre
-//                binding.quantity.text = "20"
-//            }
+            for (g in shop.games){
+                binding.gameTitle.text = g.title
+                binding.gameEditPrice.text = g.price
+                binding.genre.text = g.genre
+                binding.gameQuantity.text = g.quantity.toString()
+            }
         }
     }
 }
