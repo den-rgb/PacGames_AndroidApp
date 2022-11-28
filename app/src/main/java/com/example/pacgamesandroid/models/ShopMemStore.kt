@@ -19,6 +19,8 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
         return shops
     }
 
+
+
     override fun create(){
 
         var i = 0

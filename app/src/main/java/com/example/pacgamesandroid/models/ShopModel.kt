@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class ShopModel(
     var id: Long = 0,
     var title: String = "",
-    var games: List<GameModel>? = null,
+    var games: MutableList<GameModel> = mutableListOf(),
     var coordinates: String = "") : Parcelable
 
 @Parcelize

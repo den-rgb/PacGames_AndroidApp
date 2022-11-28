@@ -3,6 +3,7 @@ package com.example.pacgamesandroid.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,10 +18,11 @@ import com.example.pacgamesandroid.R
 import com.example.pacgamesandroid.databinding.ActivityMainBinding
 import com.example.pacgamesandroid.databinding.CardShopBinding
 import com.example.pacgamesandroid.databinding.CardShopeditBinding
-
+import com.example.pacgamesandroid.databinding.ActivityShopEditBinding
 
 import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
+import com.example.pacgamesandroid.models.GameMemStore
 import com.example.pacgamesandroid.models.GameModel
 import com.example.pacgamesandroid.models.Location
 import com.example.pacgamesandroid.models.ShopModel
@@ -35,7 +37,7 @@ class ShopEditActivity : AppCompatActivity() {
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
 
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
-    var game = GameModel()
+    var game = GameMemStore()
     var shop = ShopModel()
     lateinit var app: MainApp
     var edit = false
@@ -46,12 +48,19 @@ class ShopEditActivity : AppCompatActivity() {
 
         binding = CardShopeditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        app = application as MainApp
+
 
 //            val shop_loc = resources.getStringArray()
 //            val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
 //            binding.autoCompleteTextView.setAdapter(locAdapter)
+        //ArrayAdapter<GameModel>() gameAdapter = new ArrayAdapter<GameModel>(this, R.layout.dropdown_item, shop.games)
 
-        app = application as MainApp
+        val gameAdapter = ArrayAdapter(this, R.layout.dropdown_item, app.games.findAllNames())
+
+        binding.gameBox.setAdapter(gameAdapter)
+
+
 
         i("Main Activity started...")
 
@@ -66,7 +75,7 @@ class ShopEditActivity : AppCompatActivity() {
 //        }
 
 
-
+        binding.addGame.setOnClickListener { println(app.games.findAll()) }
 
 
 
@@ -86,10 +95,12 @@ class ShopEditActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.
+                (binding.recyclerView2.adapter)?.
                 notifyItemRangeChanged(0,app.shops.findAll().size)
             }
         }
 
 
 }
+
+

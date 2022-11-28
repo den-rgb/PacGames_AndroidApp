@@ -9,13 +9,14 @@
         <entry key="app/src/main/res/layout/activity_game_list.xml" value="0.1322463768115942" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28894927536231885" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.1322463768115942" />
+        <entry key="app/src/main/res/layout/activity_shop_edit.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_shop_list.xml" value="0.1322463768115942" />
         <entry key="app/src/main/res/layout/actvity_shop_list.xml" value="0.10866261398176291" />
         <entry key="app/src/main/res/layout/card_editShop.xml" value="0.33" />
         <entry key="app/src/main/res/layout/card_editshop.xml" value="0.25" />
         <entry key="app/src/main/res/layout/card_game.xml" value="0.25" />
         <entry key="app/src/main/res/layout/card_shop.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/card_shopedit.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/card_shopedit.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.12968591691995948" />
         <entry key="app/src/main/res/menu/menu_addGame.xml" value="0.16354166666666667" />
         <entry key="app/src/main/res/menu/menu_game.xml" value="0.18" />

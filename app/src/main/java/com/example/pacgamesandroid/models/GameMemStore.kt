@@ -16,6 +16,14 @@ class GameMemStore : GameStore {
         return games
     }
 
+    override fun findAllNames(): ArrayList<String> {
+        var nameList = ArrayList<String>()
+        for (g in games){
+            nameList.add(g.title)
+        }
+        return nameList
+    }
+
     override fun create(game: GameModel) {
         game.id = getId()
         games.add(game)

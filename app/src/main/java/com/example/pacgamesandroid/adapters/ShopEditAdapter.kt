@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pacgamesandroid.databinding.CardShopBinding
 import com.example.pacgamesandroid.databinding.CardShopeditBinding
+import com.example.pacgamesandroid.databinding.ActivityShopEditBinding
 import com.example.pacgamesandroid.models.ShopModel
 
 
@@ -16,7 +17,7 @@ class ShopEditAdapter constructor(private var shops: List<ShopModel>, private va
     RecyclerView.Adapter<ShopEditAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val binding = CardShopeditBinding
+        val binding = ActivityShopEditBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return MainHolder(binding)
     }
@@ -28,7 +29,7 @@ class ShopEditAdapter constructor(private var shops: List<ShopModel>, private va
 
     override fun getItemCount(): Int = shops.size
 
-    class MainHolder(private val binding : CardShopeditBinding) :
+    class MainHolder(private val binding : ActivityShopEditBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shop: ShopModel) {

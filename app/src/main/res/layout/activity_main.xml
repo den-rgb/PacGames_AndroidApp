@@ -75,7 +75,7 @@
 
 
                             <AutoCompleteTextView
-                                    android:id="@+id/autoCompleteTextView2"
+                                    android:id="@+id/genre_box"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"

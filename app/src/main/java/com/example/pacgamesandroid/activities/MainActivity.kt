@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         val game_genre = resources.getStringArray(R.array.game_genres)
         val genreAdapter = ArrayAdapter(this, R.layout.dropdown_item, game_genre)
-        binding.autoCompleteTextView2.setAdapter(genreAdapter)
+        binding.genreBox.setAdapter(genreAdapter)
 
         app = application as MainApp
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         binding.gameAdd.setOnClickListener {
             game.title = binding.gameTitle.text.toString()
             game.price = binding.price.text.toString()
-            game.genre = binding.autoCompleteTextView2.text.toString()
+            game.genre = binding.genreBox.text.toString()
 //            game.location = binding.autoCompleteTextView.text.toString()
             if (game.title.isEmpty()) {
                     Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
