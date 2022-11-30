@@ -14,6 +14,7 @@ import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.adapters.ShopAdapter
 import com.example.pacgamesandroid.adapters.ShopListener
 import com.example.pacgamesandroid.databinding.ActivityGameListBinding
+
 import com.example.pacgamesandroid.databinding.CardShopBinding
 import com.example.pacgamesandroid.databinding.CardShopeditBinding
 import com.example.pacgamesandroid.models.Location

@@ -20,12 +20,13 @@ class GameMemStore : GameStore {
         var found= GameModel()
         if (games.size!=0) {
             for (g in games) {
-                if (string.uppercase() == g.title.uppercase()) {
-                    found = g
+                if (string.uppercase() == g.title.uppercase()) {      ///////////possibly creates new game
+                    return g
                 }
             }
         }
         return found
+
     }
 
     override fun findAllNames(): ArrayList<String> {
@@ -39,6 +40,7 @@ class GameMemStore : GameStore {
     override fun create(game: GameModel) {
         game.id = getId()
         games.add(game)
+        println("games size: ${games.size}")
         logAll()
     }
 

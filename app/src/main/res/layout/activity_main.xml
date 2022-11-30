@@ -75,7 +75,7 @@
 
 
                             <AutoCompleteTextView
-                                    android:id="@+id/genre_box"
+                                    android:id="@+id/genreBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -127,13 +127,13 @@
             android:layout_width="wrap_content"
             android:src="@android:drawable/ic_input_add"
             android:layout_gravity="bottom|right|end"
-            android:layout_margin="16dp" android:id="@+id/game_add"/>
+            android:layout_margin="16dp" android:id="@+id/gameAdd"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_gravity="bottom"
-            android:layout_margin="16dp" android:id="@+id/item_cancel"/>
+            android:layout_margin="16dp" android:id="@+id/itemCancel"/>
     "
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

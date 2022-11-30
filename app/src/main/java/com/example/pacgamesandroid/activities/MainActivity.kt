@@ -18,6 +18,7 @@ import com.example.pacgamesandroid.databinding.ActivityMainBinding
 
 import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
+import com.example.pacgamesandroid.models.GameMemStore
 import com.example.pacgamesandroid.models.GameModel
 import com.example.pacgamesandroid.models.Location
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
+    var gameStore = GameMemStore()
     lateinit var app: MainApp
     var edit = false
     override fun onCreate(savedInstanceState: Bundle?) {

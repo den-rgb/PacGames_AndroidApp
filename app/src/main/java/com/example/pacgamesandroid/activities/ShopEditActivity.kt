@@ -3,32 +3,18 @@ package com.example.pacgamesandroid.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Resources
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pacgamesandroid.R
-import com.example.pacgamesandroid.adapters.ShopAdapter
-import com.example.pacgamesandroid.adapters.ShopEditAdapter
-import com.example.pacgamesandroid.databinding.ActivityMainBinding
-import com.example.pacgamesandroid.databinding.CardShopBinding
-import com.example.pacgamesandroid.databinding.CardShopeditBinding
-import com.example.pacgamesandroid.databinding.ActivityShopEditBinding
 
-import com.example.pacgamesandroid.helpers.showImagePicker
+import com.example.pacgamesandroid.adapters.ShopEditAdapter
+import com.example.pacgamesandroid.databinding.ActivityShopEditBinding
+import com.example.pacgamesandroid.databinding.CardShopeditBinding
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.*
-import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
-import timber.log.Timber
 import timber.log.Timber.i
 
 
@@ -56,10 +42,11 @@ class ShopEditActivity : AppCompatActivity() {
         setContentView(binding.root)
         app = application as MainApp
         println(shopStore.shops.size)
+        var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView2.layoutManager = layoutManager
-        binding.recyclerView2.adapter = ShopEditAdapter(app.shops.findAll())
-        var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
+        binding.recyclerView2.adapter = ShopEditAdapter(chosen)
+
         var shopList = app.shops.shops
         var index = app.shops.shops.indexOf(chosen)
         binding.locationText.text = shopList[index].title
@@ -68,8 +55,9 @@ class ShopEditActivity : AppCompatActivity() {
 //            binding.autoCompleteTextView.setAdapter(locAdapter)
         //ArrayAdapter<GameModel>() gameAdapter = new ArrayAdapter<GameModel>(this, R.layout.dropdown_item, shop.games)
 
-        val gameAdapter = ArrayAdapter(this, R.layout.dropdown_item, app.games.findAllNames())
+        val gameAdapter = ArrayAdapter(this, com.example.pacgamesandroid.R.layout.dropdown_item, app.games.findAllNames())
         binding.gameBox.setAdapter(gameAdapter)
+
 
 
 
@@ -77,43 +65,40 @@ class ShopEditActivity : AppCompatActivity() {
 
 
 
-//        binding.shopLocation.setOnClickListener {
-//            for (i in location) {
-//                val launcherIntent = Intent(this, MapActivity::class.java)
-//                    .putExtra("location", i)
-//                mapIntentLauncher.launch(launcherIntent)
-//            }
-//        }
+        binding.locationText.setOnClickListener {
+            var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
+            var index = app.shops.shops.indexOf(chosen)
+                val launcherIntent = Intent(this, MapActivity::class.java)
+                    .putExtra("location", app.shops.location[index])
+                mapIntentLauncher.launch(launcherIntent)
+
+        }
 
 
         binding.addGame.setOnClickListener {
             var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
             var shopList = app.shops.shops
             var index = app.shops.shops.indexOf(chosen)
-            var chosenGame = gameStore.findByName(binding.gameBox.text.toString())
-//            println("index ${index} chosen ${chosen}")
-//            for (i in app.shops.shops){
-//            println("shopList ${i}")}
-
+            var chosenGame = app.games.findByName(binding.gameBox.text.toString())
             shopList[index].games.add(chosenGame)
+
+            println("shop games: ${shopList[index].games}")
 ////            game.location = binding.autoCompleteTextView.text.toString()
-//            println("shop size $shopList[index].games[shopList[index].games.size].quantity= binding.quantiyInput.text.toString().toInt(){app.shops.shops[index].games.size}")
-//            println("===========")
-//            print("listSize ${shopList[index].games[shopList[index].games.size-1]}")
             var recent = shopList[index].games[shopList[index].games.size-1]
             recent.quantity= binding.quantiyInput.text.toString().toInt()
             recent.title = binding.gameBox.text.toString()
             recent.genre = chosenGame.genre
-            recent.price = chosenGame.price
+            recent.price = "€"+chosenGame.price
             recent.id = chosenGame.id
             recent.image = chosenGame.image
-//            println("quantity ${app.shops.shops[index].games[shopStore.shops[index].games.size-1].quantity}")
+
+            for (s in shopList.indices){
+                println("all shop ${shopList[s]} +  games ${shopList[s].games}")
+            }
+
             setResult(RESULT_OK)
             finish()
         }
-
-
-
         registerMapCallback()
     }
 

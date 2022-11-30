@@ -79,14 +79,14 @@
             app:layout_constraintTop_toBottomOf="@+id/recyclerView2"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="42dp"
             app:layout_constraintBottom_toTopOf="@+id/divider" android:backgroundTint="#FF0000"/>
-    <TextView
+    <Button
             android:text="Location"
-            android:layout_width="412dp"
-            android:layout_height="65dp" android:id="@+id/locationText"
-            android:textColor="#D94343"
-            android:textAlignment="center" android:autoSizeTextType="uniform" android:background="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/quantiyInput"
+            android:layout_width="411dp"
+            android:layout_height="58dp" android:id="@+id/locationText"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider2"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:rotationY="0" android:rotationX="0" android:rotation="0" android:textStyle="bold"/>
+            app:layout_constraintBottom_toTopOf="@+id/quantiyInput" app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="#E00606" android:background="#FB0000" android:backgroundTint="#F60808"
+            app:iconTint="#FB0808" android:textColor="#FFFFFF" app:rippleColor="@color/black"
+            android:forceDarkAllowed="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
