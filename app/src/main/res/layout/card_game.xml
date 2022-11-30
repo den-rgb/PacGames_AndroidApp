@@ -6,13 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:elevation="24dp">
+        android:elevation="24dp" app:cardBackgroundColor="@color/greyBack" app:cardCornerRadius="20dp"
+        app:cardElevation="200dp" android:background="#FF0000" android:backgroundTint="#FF0000">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp" android:background="@color/black" android:backgroundTint="#79000000"
+            android:backgroundTintMode="screen">
 
         <ImageView
                 android:id="@+id/imageIcon"
@@ -24,7 +26,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" android:background="#00FF0000"/>
 
         <TextView
                 android:id="@+id/gameTitle"
@@ -37,7 +39,7 @@
                 app:layout_constraintHorizontal_bias="0.048"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="A Title" />
+                tools:text="A Title" android:textColor="#FF0000" android:textStyle="bold"/>
 
         <TextView
                 android:id="@+id/gamePrice"
@@ -49,7 +51,7 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/gameTitle"
-                tools:text="Price" />
+                tools:text="Price" android:textColor="#FF0000" android:textStyle="bold"/>
 
         <TextView
                 android:id="@+id/gameGenre"
@@ -61,7 +63,7 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/gamePrice"
-                tools:text="Genre" />
+                tools:text="Genre" android:textStyle="bold" android:textColor="#FF0000"/>
 
         <TextView
                 android:id="@+id/shopLocation"
@@ -73,7 +75,7 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/gameGenre"
-                tools:text="Location" />
+                tools:text="Location" android:textStyle="bold" android:textColor="#FF0000"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +87,8 @@
                 android:layout_marginEnd="34dp" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"
-        />
+                android:outlineAmbientShadowColor="#FF0000" android:outlineSpotShadowColor="#FF0000"
+                app:rippleColor="#563333" app:backgroundTint="#FF0202"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -6,15 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:elevation="24dp" android:scrollbarThumbHorizontal="@color/purple_500" app:cardBackgroundColor="#FFC107"
-        app:cardCornerRadius="80dp" app:contentPadding="5dp" android:rotationX="2" android:background="#000000"
-        android:backgroundTint="#C5402833">
+        android:elevation="12dp" android:scrollbarThumbHorizontal="@color/purple_500" app:cardBackgroundColor="#FFC107"
+        app:cardCornerRadius="0dp" app:contentPadding="5dp" android:rotationX="2" android:background="#000000"
+        android:backgroundTint="#C5000000">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:padding="16dp" android:backgroundTint="#623A2424" android:background="#00FFFFFF">
+            android:padding="16dp" android:backgroundTint="#62492929" android:background="#04FF0303">
 
 
         <TextView
