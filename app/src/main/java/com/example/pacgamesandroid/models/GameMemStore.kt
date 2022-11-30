@@ -16,9 +16,31 @@ class GameMemStore : GameStore {
         return games
     }
 
+    override fun findByName(string: String):GameModel {
+        var found= GameModel()
+        if (games.size!=0) {
+            for (g in games) {
+                if (string.uppercase() == g.title.uppercase()) {      ///////////possibly creates new game
+                    return g
+                }
+            }
+        }
+        return found
+
+    }
+
+    override fun findAllNames(): ArrayList<String> {
+        var nameList = ArrayList<String>()
+        for (g in games){
+            nameList.add(g.title)
+        }
+        return nameList
+    }
+
     override fun create(game: GameModel) {
         game.id = getId()
         games.add(game)
+        println("games size: ${games.size}")
         logAll()
     }
 

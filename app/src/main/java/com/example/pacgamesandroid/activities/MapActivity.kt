@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.example.pacgamesandroid.R
 import com.example.pacgamesandroid.databinding.ActivityMapBinding
 import com.example.pacgamesandroid.models.Location
+import com.example.pacgamesandroid.models.ShopModel
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,25 +28,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        for (i in location) {
-            intent.extras?.getParcelable<Location>("location")!!
-        }
+        intent.extras?.getParcelable<Location>("location")!!
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        for (i in location) {
-            val loc = LatLng(i.lat, i.lng)
+        val cLocation = intent.extras?.getParcelable<Location>("location")!!
+            val loc = LatLng(cLocation.lat, cLocation.lng)
             val options = MarkerOptions()
                 .title("Gamestop")
                 .snippet("GPS : $loc\nGames : ")
                 .draggable(false)
                 .position(loc)
             map.addMarker(options)
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, i.zoom))
-        }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, cLocation.zoom))
+
     }
 
 

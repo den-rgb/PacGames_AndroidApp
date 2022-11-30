@@ -14,14 +14,20 @@ import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.adapters.ShopAdapter
 import com.example.pacgamesandroid.adapters.ShopListener
 import com.example.pacgamesandroid.databinding.ActivityGameListBinding
-import com.example.pacgamesandroid.models.Location
-import com.example.pacgamesandroid.models.ShopModel
 
+import com.example.pacgamesandroid.databinding.CardShopBinding
+import com.example.pacgamesandroid.databinding.CardShopeditBinding
+import com.example.pacgamesandroid.models.Location
+import com.example.pacgamesandroid.models.ShopMemStore
+import com.example.pacgamesandroid.models.ShopModel
+import com.example.pacgamesandroid.models.ShopStore
 
 
 class ShopListActivity : AppCompatActivity(), ShopListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGameListBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +40,9 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = ShopAdapter(app.shops.findAll(), this)
 
+        if (app.shops.shops.size == 0) app.shops.create()
 
-        app.shops.create()
+
     }
 
     private val getResult =
@@ -49,7 +56,7 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
         }
 
     override fun onShopClick(shop: ShopModel) {
-        val launcherIntent = Intent(this, MainActivity::class.java)
+        val launcherIntent = Intent(this, ShopEditActivity::class.java)
         launcherIntent.putExtra("shop_edit", shop)
         getClickResult.launch(launcherIntent)
     }

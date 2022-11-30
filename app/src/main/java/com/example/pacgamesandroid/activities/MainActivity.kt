@@ -18,6 +18,7 @@ import com.example.pacgamesandroid.databinding.ActivityMainBinding
 
 import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
+import com.example.pacgamesandroid.models.GameMemStore
 import com.example.pacgamesandroid.models.GameModel
 import com.example.pacgamesandroid.models.Location
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var game = GameModel()
+    var gameStore = GameMemStore()
     lateinit var app: MainApp
     var edit = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         val game_genre = resources.getStringArray(R.array.game_genres)
         val genreAdapter = ArrayAdapter(this, R.layout.dropdown_item, game_genre)
-        binding.autoCompleteTextView2.setAdapter(genreAdapter)
+        binding.genreBox.setAdapter(genreAdapter)
 
         app = application as MainApp
 
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         binding.gameAdd.setOnClickListener {
             game.title = binding.gameTitle.text.toString()
             game.price = binding.price.text.toString()
-            game.genre = binding.autoCompleteTextView2.text.toString()
+            game.genre = binding.genreBox.text.toString()
 //            game.location = binding.autoCompleteTextView.text.toString()
             if (game.title.isEmpty()) {
                     Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)

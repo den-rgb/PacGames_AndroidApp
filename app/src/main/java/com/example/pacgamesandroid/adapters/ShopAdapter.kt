@@ -33,6 +33,10 @@ class ShopAdapter constructor(private var shops: List<ShopModel>, private val li
         fun bind(shop: ShopModel, listener: ShopListener) {
             binding.shopTitle.text = shop.title
             binding.shopLocation.text = shop.coordinates
+            if (shop.games?.size == null){
+                binding.gameQuantity.text = "0"
+            }else binding.gameQuantity.text = shop.games.size.toString()
+            binding.gameCount.text = "Games:"
             binding.root.setOnClickListener { listener.onShopClick(shop) }
         }
     }
