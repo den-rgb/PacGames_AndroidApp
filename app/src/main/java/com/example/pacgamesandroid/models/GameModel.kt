@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class GameModel(var id: Long = 0,
+data class GameModel(var id: Int = 0,
                          var title: String = "",
                          var price: String = "",
                          var genre: String = "",

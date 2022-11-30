@@ -27,7 +27,7 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGameListBinding
 
-
+    var lastShop = ShopModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,20 +45,12 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
 
     }
 
-    private val getResult =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.shops.findAll().size)
-            }
-        }
-
     override fun onShopClick(shop: ShopModel) {
         val launcherIntent = Intent(this, ShopEditActivity::class.java)
         launcherIntent.putExtra("shop_edit", shop)
+
         getClickResult.launch(launcherIntent)
+        lastShop = shop
     }
 
     private val getClickResult =
@@ -67,7 +59,7 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.shops.findAll().size)
+                notifyItemRangeChanged(0,app.shops.shops.size)
             }
         }
 

@@ -3,7 +3,8 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
-                                                   android:layout_height="match_parent" android:background="#B4B4B4">
+                                                   android:layout_height="match_parent" android:background="#B4B4B4"
+                                                   android:id="@+id/goBack">
     <Button
             android:text="Add Game"
             android:layout_width="wrap_content"
@@ -49,10 +50,11 @@
             android:ems="10"
             android:id="@+id/quantiyInput"
             android:backgroundTint="#FF0000" android:layout_marginTop="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/divider" android:layout_marginEnd="10dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="14dp"
-            app:layout_constraintStart_toEndOf="@+id/textView2" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/addGame"/>
+            app:layout_constraintTop_toBottomOf="@+id/divider" android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/addGame" app:layout_constraintVertical_bias="0.666"
+            app:layout_constraintStart_toEndOf="@+id/textView2"/>
     <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="172dp"
@@ -93,4 +95,14 @@
             app:strokeColor="#E00606" android:background="#FB0000" android:backgroundTint="#F60808"
             app:iconTint="#FB0808" android:textColor="#FF0000" app:rippleColor="@color/black"
             android:forceDarkAllowed="false" android:textStyle="bold" android:textSize="20sp"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@android:drawable/ic_menu_revert"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp" android:id="@+id/ToShop" app:backgroundTint="#FF0707"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView2" android:layout_marginBottom="43dp"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>
