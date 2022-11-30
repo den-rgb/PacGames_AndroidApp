@@ -1,11 +1,12 @@
 package com.example.pacgamesandroid.models
 
 import timber.log.Timber.i
+import kotlin.random.Random
 
-var lastId = 0L
+var lastId = 0
 
-internal fun getId(): Long {
-    return lastId++
+internal fun getId(): Int {
+    return Random.nextInt(10000)
 }
 
 class GameMemStore : GameStore {

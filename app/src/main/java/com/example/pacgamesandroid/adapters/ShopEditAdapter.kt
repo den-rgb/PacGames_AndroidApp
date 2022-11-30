@@ -42,14 +42,8 @@ class ShopEditAdapter(private var shop: ShopModel?) :
         fun bind(game: GameModel?) {
             if (game != null) {
                 binding.gameTitle.text = game.title
-            }
-            if (game != null) {
                 binding.gameEditPrice.text = game.price
-            }
-            if (game != null) {
                 binding.genre.text = game.genre
-            }
-            if (game != null) {
                 binding.gameQuantity.text = game.quantity.toString()
             }
 

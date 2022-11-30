@@ -4,6 +4,7 @@ package com.example.pacgamesandroid.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pacgamesandroid.adapters.ShopEditAdapter
 import com.example.pacgamesandroid.databinding.ActivityShopEditBinding
 import com.example.pacgamesandroid.databinding.CardShopeditBinding
+
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.*
 import timber.log.Timber.i
@@ -78,28 +80,66 @@ class ShopEditActivity : AppCompatActivity() {
         binding.addGame.setOnClickListener {
             var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
             var shopList = app.shops.shops
-            var index = app.shops.shops.indexOf(chosen)
+            var index = shopList.indexOf(chosen)
             var chosenGame = app.games.findByName(binding.gameBox.text.toString())
-            shopList[index].games.add(chosenGame)
+            var recent = GameModel()
+            var gamePicked = binding.gameBox.text.toString()
+            var quant = binding.quantiyInput.text.toString()
+            if (shopList[index].games.size!=0) {
+                for (i in shopList[index].games) {
+                    if (i.id == chosenGame.id){
+                        if ( gamePicked.uppercase()!="CHOOSE GAME") {
+                            recent = i
+                            println("2 pos: ${shopList[index].games.indexOf(recent)} ------ id: ${recent.id}")
+                            break
+                        }
+                    }else{
+                        if ( gamePicked.uppercase()!="CHOOSE GAME" ) {
+                            shopList[index].games.add(chosenGame.copy())
 
-            println("shop games: ${shopList[index].games}")
-////            game.location = binding.autoCompleteTextView.text.toString()
-            var recent = shopList[index].games[shopList[index].games.size-1]
-            recent.quantity= binding.quantiyInput.text.toString().toInt()
-            recent.title = binding.gameBox.text.toString()
-            recent.genre = chosenGame.genre
-            recent.price = "€"+chosenGame.price
-            recent.id = chosenGame.id
-            recent.image = chosenGame.image
+                            for (j in shopList[index].games) {
+                                if (j == chosenGame) {
+                                    recent = j
+                                    println("1 pos: ${shopList[index].games.indexOf(recent)} ------ id: ${recent.id}")
+                                    break
+                                }
+                            }
+                        }
 
-            for (s in shopList.indices){
-                println("all shop ${shopList[s]} +  games ${shopList[s].games}")
+                    }
+                }
+            }else{
+                if ( gamePicked.uppercase()!="CHOOSE GAME") {
+                    shopList[index].games.add(chosenGame.copy())
+                    for (j in shopList[index].games) {
+                        if (j == chosenGame) {
+                            recent = j
+                            println("3 pos: ${shopList[index].games.indexOf(recent)} ------ id: ${recent.id}")
+                        }
+                    }
+                }
             }
+            if ( gamePicked.uppercase()!="CHOOSE GAME") {
+                println("shop games: ${shopList[index].games}")
 
+                recent.quantity = binding.quantiyInput.text.toString().toInt()
+                recent.title = binding.gameBox.text.toString()
+                recent.genre = chosenGame.genre
+                recent.price = "€" + chosenGame.price
+                recent.id = chosenGame.id
+                recent.image = chosenGame.image
+                (binding.recyclerView2.adapter)?.notifyItemRangeChanged(0, shopList[index].games.size)
+            }
             setResult(RESULT_OK)
+
             finish()
         }
         registerMapCallback()
+
+        binding.ToShop.setOnClickListener {
+            finish()
+        }
+
     }
 
 
@@ -110,15 +150,6 @@ class ShopEditActivity : AppCompatActivity() {
             { i("Map Loaded") }
     }
 
-    private val getClickResult =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView2.adapter)?.
-                notifyItemRangeChanged(0,app.shops.findAll().size)
-            }
-        }
 
 
 }

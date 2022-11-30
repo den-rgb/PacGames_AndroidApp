@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             game.price = binding.price.text.toString()
             game.genre = binding.genreBox.text.toString()
 //            game.location = binding.autoCompleteTextView.text.toString()
-            if (game.title.isEmpty()) {
+            if (game.title.isEmpty() || game.price.isEmpty() || game.genre.uppercase()=="CHOOSE GENRE") {
                     Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
                         .show()
             } else {

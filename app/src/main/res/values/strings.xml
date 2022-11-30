@@ -6,7 +6,7 @@
     <string name="menu_addGame">Add</string>
     <string name="menu_goShop">Shops</string>
     <string name="menu_cancelGame">Cancel</string>
-    <string name="enter_game_title">Please enter a Game Title</string>
+    <string name="enter_game_title">Please enter all the information</string>
     <string name="save_game">Save Game</string>
     <string name="button_addImage">Add Image</string>
     <string name="select_game_image">Select game image</string>
