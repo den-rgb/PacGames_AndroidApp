@@ -12,28 +12,29 @@
             android:layout_height="match_parent"
 
 
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:background="@color/greyBack">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".activities.MainActivity">
+                tools:context=".activities.MainActivity" android:background="#767676">
 
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" android:background="#767676">
 
                 <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent" android:background="#7C7C7C">
                     <!--                android:layout_below="@id/appBarLayout"-->
                     <!--                android:fillViewport="true">-->
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical" android:background="#7A7A7A">
 
                         <EditText
                                 android:id="@+id/gameTitle"
@@ -46,8 +47,9 @@
                                 android:maxLength="25"
                                 android:maxLines="1"
                                 android:padding="8dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textSize="14sp"/>
+                                android:textColor="#FF0000"
+                                android:textSize="20sp" android:textStyle="bold" android:backgroundTint="#FF0000"
+                                android:textColorHighlight="#FF0000" android:textColorHint="#3A3737"/>
 
                         <EditText
                                 android:id="@+id/price"
@@ -55,13 +57,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
                                 android:hint="@string/hint_gamePrice"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:maxLength="25"
                                 android:maxLines="1"
                                 android:padding="8dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textSize="14sp"/>
-
+                                android:textColor="#FF0000"
+                                android:textSize="20sp" android:textStyle="bold" android:backgroundTint="#FF0000"
+                                android:textColorHighlight="#FF0000" android:textColorHint="#312D2D"/>
 
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +73,7 @@
                                 android:layout_margin="20dp"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent" android:background="#000000">
 
 
                             <AutoCompleteTextView
@@ -81,7 +83,8 @@
                                     android:layout_weight="1"
                                     android:inputType="none"
                                     android:text="Choose Genre"
-                            />
+                                    android:textColor="#FF0000" android:textAlignment="center"
+                                    android:textStyle="bold" android:textSize="20sp" android:textAllCaps="true"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -94,26 +97,14 @@
                                 android:paddingBottom="8dp"
                                 android:paddingTop="8dp"
                                 android:text="@string/button_addImage"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="16sp"/>
-
+                                android:textColor="#FF0000"
+                                android:textSize="16sp" android:textStyle="bold"/>
                         <ImageView
                                 android:id="@+id/gameImage"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@color/material_on_primary_emphasis_high_type"/>
-                        <Button
-                                android:id="@+id/shopLocation"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
-                                android:background="@color/colorAccent"
-                                android:paddingBottom="8dp"
-                                android:paddingTop="8dp"
-                                android:stateListAnimator="@null"
-                                android:text="@string/button_location"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="16sp"/>
+                                android:layout_height="338dp"
+                                app:srcCompat="@color/greyBack" android:background="#858585"
+                                android:backgroundTint="#6D6D6D"/>
 
                     </LinearLayout>
                 </ScrollView>
@@ -127,13 +118,13 @@
             android:layout_width="wrap_content"
             android:src="@android:drawable/ic_input_add"
             android:layout_gravity="bottom|right|end"
-            android:layout_margin="16dp" android:id="@+id/gameAdd"/>
+            android:layout_margin="16dp" android:id="@+id/gameAdd" app:backgroundTint="#2FFF00"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_gravity="bottom"
-            android:layout_margin="16dp" android:id="@+id/itemCancel"/>
+            android:layout_margin="16dp" android:id="@+id/itemCancel" app:backgroundTint="#FF0707"/>
     "
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
