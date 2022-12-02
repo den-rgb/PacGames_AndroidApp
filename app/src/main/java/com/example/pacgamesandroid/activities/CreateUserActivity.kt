@@ -7,10 +7,14 @@ import android.widget.Toast
 import com.example.pacgamesandroid.R
 import com.example.pacgamesandroid.databinding.ActivityFindUserBinding
 import com.example.pacgamesandroid.main.MainApp
+import com.example.pacgamesandroid.models.ShopListModel
+import com.example.pacgamesandroid.models.ShopModel
 import com.example.pacgamesandroid.models.UserModel
+import com.example.pacgamesandroid.models.getId
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -35,7 +39,7 @@ class CreateUserActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         app = application as MainApp
 
-        val user = auth.currentUser!!
+
 
 
 
@@ -48,8 +52,17 @@ class CreateUserActivity : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty() && name.isNotEmpty()){
                 auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener{
                     if (it.isSuccessful){
+                        val user = auth.currentUser!!
                         if (pass == confirm) {
                             db.collection("users").document(user.uid).set(UserModel(user.uid,name,email, arrayListOf()))
+                            app.shops.create()
+//                            for (i in app.shops.shops) {
+//                                db.collection("shopList").document(user.uid).set(i)
+//                            }
+//                            db.collection("shopList").document(user.uid).set(ShopListModel(arrayListOf()))
+
+
+
                             val intent = Intent(this, LogInActiviy::class.java)
                             startActivity(intent)
                         }else Toast.makeText(this,"Passwords do not match",Toast.LENGTH_SHORT).show()

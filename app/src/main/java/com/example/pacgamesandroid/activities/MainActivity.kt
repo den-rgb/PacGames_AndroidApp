@@ -58,9 +58,6 @@ class MainActivity : AppCompatActivity(){
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        val shop_loc = resources.getStringArray(R.array.shop_locations)
-//        val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
-//        binding.autoCompleteTextView.setAdapter(locAdapter)
 
         val game_genre = resources.getStringArray(R.array.game_genres)
         val genreAdapter = ArrayAdapter(this, R.layout.dropdown_item, game_genre)

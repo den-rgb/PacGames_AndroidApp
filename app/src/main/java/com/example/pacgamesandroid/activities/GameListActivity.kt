@@ -38,19 +38,26 @@ class GameListActivity : AppCompatActivity(), GameListener {
         super.onCreate(savedInstanceState)
         binding = ActivityGameListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
         app = application as MainApp
         db = Firebase.firestore
 
-        val user = auth.currentUser!!
 
-        val docRef = db.collection("users").document(user.uid)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val activeUser = documentSnapshot.toObject<UserModel>()
-            binding.toolbar.title = "WELCOME " + activeUser!!.name.uppercase()
-            val layoutManager = LinearLayoutManager(this)
-            binding.recyclerView.layoutManager = layoutManager
-            binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+
+
+        if (auth.currentUser!=null) {
+            val user = auth.currentUser!!
+            val docRef = db.collection("users").document(user.uid)
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                val activeUser = documentSnapshot.toObject<UserModel>()
+                binding.toolbar.title = "WELCOME " + activeUser!!.name.uppercase()
+                val layoutManager = LinearLayoutManager(this)
+                binding.recyclerView.layoutManager = layoutManager
+                binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+            }
+        }else{
+            binding.toolbar.title = title
+            binding.recyclerView.adapter = GameAdapter(app.games.games, this)
         }
 
         setSupportActionBar(binding.toolbar)

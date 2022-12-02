@@ -31,8 +31,8 @@ class ShopEditAdapter(private var shop: ShopModel?) :
 
     override fun getItemCount(): Int {
 
-        var size = shop?.games?.size
-        return size!!
+
+        return shop!!.games.size
     }
 
 

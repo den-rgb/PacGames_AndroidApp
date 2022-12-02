@@ -36,7 +36,7 @@ class ShopEditActivity : AppCompatActivity() {
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var gameStore = GameMemStore()
     var shopStore = ShopMemStore()
-    var shop = ShopModel()
+    var shopList = ShopListModel()
     var game = GameModel()
     lateinit var app: MainApp
     var edit = false
@@ -58,16 +58,16 @@ class ShopEditActivity : AppCompatActivity() {
         var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView2.layoutManager = layoutManager
-        val docRefShops = db.collection("shops").document(chosen!!.id.toString())
+        val docRefShops = db.collection("shopList").document(auth.currentUser!!.uid)
         docRefShops.get().addOnSuccessListener { documentSnapshot ->
             val activeShop = documentSnapshot.toObject<ShopModel>()
             binding.recyclerView2.adapter = ShopEditAdapter(activeShop)
         }
 
 
-        var shopList = app.shops.shops
-        var index = app.shops.shops.indexOf(chosen)
-        binding.locationText.text = shopList[index].title
+        var sL = ShopListModel()
+        var index = sL.shops.indexOf(chosen)
+        binding.locationText.text = shopList.shops[index].title
 //            val shop_loc = resources.getStringArray()
 //            val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
 //            binding.autoCompleteTextView.setAdapter(locAdapter)
