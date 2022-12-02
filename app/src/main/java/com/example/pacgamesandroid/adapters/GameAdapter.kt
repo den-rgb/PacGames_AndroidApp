@@ -2,6 +2,7 @@ package com.example.pacgamesandroid.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pacgamesandroid.databinding.CardGameBinding
 import com.example.pacgamesandroid.main.MainApp
@@ -9,6 +10,8 @@ import com.example.pacgamesandroid.models.GameMemStore
 import com.example.pacgamesandroid.models.GameModel
 import com.example.pacgamesandroid.models.GameStore
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 interface GameListener {
     fun onGameClick(game: GameModel)
@@ -35,11 +38,10 @@ class GameAdapter constructor(private var games: List<GameModel>, private val li
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(game: GameModel, listener: GameListener) {
-
             binding.gameTitle.text = game.title
             binding.gamePrice.text = game.price
             binding.gameGenre.text = game.genre
-            Picasso.get().load(game.image).resize(200,200).into(binding.imageIcon)
+            Picasso.get().load(game.image.toUri()).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onGameClick(game) }
             binding.deleteGame.setOnClickListener { listener.onDelete(game) }
         }

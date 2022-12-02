@@ -1,62 +1,33 @@
 {
   "project_info": {
-    "project_number": "1033026161119",
-    "project_id": "androidapp-369510",
-    "storage_bucket": "androidapp-369510.appspot.com"
+    "project_number": "361826050752",
+    "project_id": "pacgames-a3a9f",
+    "storage_bucket": "pacgames-a3a9f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1033026161119:android:e56b837e74edd576379c6a",
-        "android_client_info": {
-          "package_name": "com.example.pacgames"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1033026161119-eo3o9oj13nf4h5q1ghdkej72lvpg8dve.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyApXilPOp5wgtNpIHM6XPLmeelnl0uQIQg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1033026161119-eo3o9oj13nf4h5q1ghdkej72lvpg8dve.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1033026161119:android:fc456ba67453cf24379c6a",
+        "mobilesdk_app_id": "1:361826050752:android:e2cb054ccddcdbe16a0325",
         "android_client_info": {
           "package_name": "com.example.pacgamesandroid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1033026161119-eo3o9oj13nf4h5q1ghdkej72lvpg8dve.apps.googleusercontent.com",
+          "client_id": "361826050752-5c1gt7luea7davhro7s9vokbrj4856iu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyApXilPOp5wgtNpIHM6XPLmeelnl0uQIQg"
+          "current_key": "AIzaSyCCW82uaIzJcHw94gPKrNO1ZMrI_CUccew"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1033026161119-eo3o9oj13nf4h5q1ghdkej72lvpg8dve.apps.googleusercontent.com",
+              "client_id": "361826050752-5c1gt7luea7davhro7s9vokbrj4856iu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

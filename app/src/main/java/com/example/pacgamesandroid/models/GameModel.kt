@@ -10,7 +10,7 @@ data class GameModel(var id: Int = 0,
                          var price: String = "",
                          var genre: String = "",
                          var quantity: Int = 0,
-                         var image: Uri = Uri.EMPTY) : Parcelable {
+                         var image: String = "") : Parcelable {
 }
 
 //@Parcelize

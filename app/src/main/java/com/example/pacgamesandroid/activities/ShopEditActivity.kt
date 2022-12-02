@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.pacgamesandroid.adapters.ShopEditAdapter
@@ -17,6 +18,13 @@ import com.example.pacgamesandroid.databinding.CardShopeditBinding
 
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import timber.log.Timber.i
 
 
@@ -32,7 +40,8 @@ class ShopEditActivity : AppCompatActivity() {
     var game = GameModel()
     lateinit var app: MainApp
     var edit = false
-
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +51,19 @@ class ShopEditActivity : AppCompatActivity() {
         binding = CardShopeditBinding.inflate(layoutInflater)
         binding2 = ActivityShopEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        auth = Firebase.auth
         app = application as MainApp
+        db = Firebase.firestore
         println(shopStore.shops.size)
         var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView2.layoutManager = layoutManager
-        binding.recyclerView2.adapter = ShopEditAdapter(chosen)
+        val docRefShops = db.collection("shops").document(chosen!!.id.toString())
+        docRefShops.get().addOnSuccessListener { documentSnapshot ->
+            val activeShop = documentSnapshot.toObject<ShopModel>()
+            binding.recyclerView2.adapter = ShopEditAdapter(activeShop)
+        }
+
 
         var shopList = app.shops.shops
         var index = app.shops.shops.indexOf(chosen)
@@ -56,9 +72,17 @@ class ShopEditActivity : AppCompatActivity() {
 //            val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
 //            binding.autoCompleteTextView.setAdapter(locAdapter)
         //ArrayAdapter<GameModel>() gameAdapter = new ArrayAdapter<GameModel>(this, R.layout.dropdown_item, shop.games)
+        val user = auth.currentUser!!
 
-        val gameAdapter = ArrayAdapter(this, com.example.pacgamesandroid.R.layout.dropdown_item, app.games.findAllNames())
-        binding.gameBox.setAdapter(gameAdapter)
+        val docRef = db.collection("users").document(user.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val activeUser = documentSnapshot.toObject<UserModel>()
+            if (activeUser != null) {
+                val gameAdapter =
+                    ArrayAdapter(this, com.example.pacgamesandroid.R.layout.dropdown_item, app.games.findAllNames(activeUser.games))
+                binding.gameBox.setAdapter(gameAdapter)
+            }
+        }
 
 
 
@@ -78,6 +102,8 @@ class ShopEditActivity : AppCompatActivity() {
 
 
         binding.addGame.setOnClickListener {
+            auth = FirebaseAuth.getInstance()
+            db = Firebase.firestore
             var chosen = intent.extras?.getParcelable<ShopModel>("shop_edit")
             var shopList = app.shops.shops
             var index = shopList.indexOf(chosen)
@@ -85,6 +111,7 @@ class ShopEditActivity : AppCompatActivity() {
             var recent = GameModel()
             var gamePicked = binding.gameBox.text.toString()
             var quant = binding.quantiyInput.text.toString()
+
             if (shopList[index].games.size!=0) {
                 for (i in shopList[index].games) {
                     if (i.id == chosenGame.id){
@@ -95,6 +122,7 @@ class ShopEditActivity : AppCompatActivity() {
                         }
                     }else{
                         if ( gamePicked.uppercase()!="CHOOSE GAME" ) {
+//
                             shopList[index].games.add(chosenGame.copy())
 
                             for (j in shopList[index].games) {
@@ -110,6 +138,8 @@ class ShopEditActivity : AppCompatActivity() {
                 }
             }else{
                 if ( gamePicked.uppercase()!="CHOOSE GAME") {
+
+//                    db.collection("shopGames").document(chosenGame.id.toString()).set(chosenGame.copy())
                     shopList[index].games.add(chosenGame.copy())
                     for (j in shopList[index].games) {
                         if (j == chosenGame) {
@@ -127,7 +157,11 @@ class ShopEditActivity : AppCompatActivity() {
                 recent.genre = chosenGame.genre
                 recent.price = "€" + chosenGame.price
                 recent.id = chosenGame.id
-                recent.image = chosenGame.image
+                val docRef2 = db.collection("shops").document(chosen!!.id.toString())
+                docRef2.get().addOnSuccessListener {
+                    docRef2.update("shopGames",FieldValue.arrayUnion(recent.copy()))
+                }
+
                 (binding.recyclerView2.adapter)?.notifyItemRangeChanged(0, shopList[index].games.size)
             }
             setResult(RESULT_OK)

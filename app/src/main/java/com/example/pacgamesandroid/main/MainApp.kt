@@ -12,7 +12,7 @@ class MainApp : Application() {
 
     val shops = ShopMemStore()
 
-    override fun onCreate() {
+    override  fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         i("Game started")

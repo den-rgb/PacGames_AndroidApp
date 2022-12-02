@@ -1,12 +1,21 @@
 package com.example.pacgamesandroid.models
 
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.snapshots
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.flow.scan
 import timber.log.Timber.i
 
 
 
 class ShopMemStore : ShopStore , AppCompatActivity(){
-
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
     val shops = ArrayList<ShopModel>()
     var location = arrayOf(
         Location(53.286029, -6.24168, 15f), Location( 53.22027,-6.6596, 15f), Location(53.45375, -6.21923, 15f), Location(52.35314, -7.70071, 15f), Location(52.26016, -7.10993, 15f),
@@ -22,7 +31,8 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
 
 
     override fun create(){
-
+        db = Firebase.firestore
+        auth = FirebaseAuth.getInstance()
         var i = 0
 
         for (s in location.indices) {
@@ -33,6 +43,12 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
             shop.games
             shop.coordinates = location[s].lat.toString()+"°" + " " + location[s].lng.toString()+"°"
             shops.add(shop)
+            val docRefShops = db.collection("shops").document(shop.id.toString())
+//            docRefShops.get().addOnSuccessListener { documentSnapshot ->
+//                val activeShop = documentSnapshot.toObject<ShopModel>()
+//            }
+//            db.collection("shops").document(shop.id.toString()).set(shop)
+            docRefShops.update("games", FieldValue.arrayUnion(shop.copy()))
         }
         logAll()
     }

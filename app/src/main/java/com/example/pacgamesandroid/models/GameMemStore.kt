@@ -2,6 +2,8 @@ package com.example.pacgamesandroid.models
 
 import timber.log.Timber.i
 import kotlin.random.Random
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.runBlocking
 
 var lastId = 0
 
@@ -30,22 +32,23 @@ class GameMemStore : GameStore {
 
     }
 
-    override fun findAllNames(): ArrayList<String> {
+    override fun findAllNames(game: ArrayList<GameModel>): ArrayList<String> {
         var nameList = ArrayList<String>()
-        for (g in games){
+        for (g in game){
             nameList.add(g.title)
         }
         return nameList
     }
 
-    override fun create(game: GameModel) {
+    override fun create(game: GameModel): GameModel {
         game.id = getId()
         games.add(game)
         println("games size: ${games.size}")
         logAll()
+        return games[games.indexOf(game)]
     }
 
-    override fun update(game: GameModel) {
+    override fun update(game: GameModel): GameModel {
         var foundGame: GameModel? = games.find { p -> p.id == game.id }
         if (foundGame != null) {
             foundGame.title = game.title
@@ -54,9 +57,10 @@ class GameMemStore : GameStore {
             foundGame.image = game.image
             logAll()
         }
+        return foundGame!!
     }
 
-    override fun delete(game: GameModel) {
+    override fun delete(game: GameModel)  {
         var foundGame: GameModel? = games.find { p -> p.id == game.id }
         games.remove(foundGame)
     }

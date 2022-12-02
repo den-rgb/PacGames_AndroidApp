@@ -16,27 +16,51 @@ import com.example.pacgamesandroid.adapters.GameListener
 import com.example.pacgamesandroid.databinding.ActivityGameListBinding
 
 import com.example.pacgamesandroid.models.GameModel
-
+import com.example.pacgamesandroid.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 
 class GameListActivity : AppCompatActivity(), GameListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGameListBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
         binding = ActivityGameListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        auth = FirebaseAuth.getInstance()
         app = application as MainApp
+        db = Firebase.firestore
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = GameAdapter(app.games.findAll(), this)
-        binding.toolbar.title = title
+        val user = auth.currentUser!!
+
+        val docRef = db.collection("users").document(user.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val activeUser = documentSnapshot.toObject<UserModel>()
+            binding.toolbar.title = "WELCOME " + activeUser!!.name.uppercase()
+            val layoutManager = LinearLayoutManager(this)
+            binding.recyclerView.layoutManager = layoutManager
+            binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+        }
+
         setSupportActionBar(binding.toolbar)
 
+
     }
+
+
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -51,6 +75,10 @@ class GameListActivity : AppCompatActivity(), GameListener {
             }
             R.id.go_shops -> {
                 val launcherIntent = Intent(this, ShopListActivity::class.java)
+                getResult.launch(launcherIntent)
+            }
+            R.id.item_user -> {
+                val launcherIntent = Intent(this, LogInActiviy::class.java)
                 getResult.launch(launcherIntent)
             }
         }
@@ -73,14 +101,29 @@ class GameListActivity : AppCompatActivity(), GameListener {
         getClickResult.launch(launcherIntent)
     }
 
-    override fun onDelete(game: GameModel){
-        app.games.delete(game)
+    override fun onDelete(game: GameModel) {
+        db = Firebase.firestore
+
+        val user = auth.currentUser!!
+
+        val docRef = db.collection("users").document(user.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val activeUser = documentSnapshot.toObject<UserModel>()
+            if (activeUser != null) {
+                app.games.delete(game)
+                activeUser.games = app.games.games
+                db.collection("users").document(user.uid).set(activeUser.games)
+            }
+        }
+
         overridePendingTransition(0, 0);
         finish()
         overridePendingTransition(0, 0);
         startActivity(getIntent())
         overridePendingTransition(0, 0);
     }
+
+
 
     private val getClickResult =
         registerForActivityResult(
@@ -92,5 +135,6 @@ class GameListActivity : AppCompatActivity(), GameListener {
             }
         }
 
-}
 
+
+}
