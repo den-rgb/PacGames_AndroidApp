@@ -6,15 +6,15 @@ package com.example.pacgamesandroid.models
 //
 //}
 
-class ShopListModel {
-    var shops: ArrayList<ShopModel> = arrayListOf()
-
-
-    constructor(shops: ArrayList<ShopModel>) {
-        this.shops = shops
-    }
-
-    //Add this
-    constructor() {}
+data class ShopListModel(var shops: ArrayList<ShopModel> = arrayListOf()) {
+//    var shops: ArrayList<ShopModel> = arrayListOf()
+//
+//
+//    constructor(shops: ArrayList<ShopModel>) {
+//        this.shops = shops
+//    }
+//
+//    //Add this
+//    constructor() {}
 }
 

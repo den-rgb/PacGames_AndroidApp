@@ -60,6 +60,7 @@ class CreateUserActivity : AppCompatActivity() {
 //                                db.collection("shopList").document(user.uid).set(i)
 //                            }
 //                            db.collection("shopList").document(user.uid).set(ShopListModel(arrayListOf()))
+                            println("shoplist size ${app.shopList.shops}")
 
 
 

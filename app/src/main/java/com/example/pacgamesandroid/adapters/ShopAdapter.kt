@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pacgamesandroid.databinding.CardShopBinding
+
+
 import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.ShopModel
 

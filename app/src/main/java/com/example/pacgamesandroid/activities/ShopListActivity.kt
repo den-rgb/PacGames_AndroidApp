@@ -49,7 +49,6 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
 
 
         val docRefShops = db.collection("shopList").document(user.uid)
-
         docRefShops.get().addOnSuccessListener { documentSnapshot ->
             val shopList = documentSnapshot.toObject<ShopListModel>()
 //

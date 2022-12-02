@@ -18,6 +18,7 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
     private lateinit var auth: FirebaseAuth
 
     val shops = ArrayList<ShopModel>()
+    var sL = ShopListModel()
 
     var location = arrayOf(
         Location(53.286029, -6.24168, 15f), Location( 53.22027,-6.6596, 15f), Location(53.45375, -6.21923, 15f), Location(52.35314, -7.70071, 15f), Location(52.26016, -7.10993, 15f),
@@ -35,7 +36,6 @@ class ShopMemStore : ShopStore , AppCompatActivity(){
     override fun create(){
         db = Firebase.firestore
         auth = FirebaseAuth.getInstance()
-        var sL = ShopListModel()
         var i = 0
         val docRefShops = db.collection("shopList").document(auth.currentUser!!.uid)
         db.collection("shopList").document(auth.currentUser!!.uid).set(ShopListModel(arrayListOf()))
