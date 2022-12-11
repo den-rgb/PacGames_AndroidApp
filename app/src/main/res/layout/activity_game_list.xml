@@ -27,7 +27,8 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_width="match_parent"
                                                            android:layout_height="777dp"
                                                            android:id="@+id/swipeRefresh"
-                                                           android:layout_gravity="center|start">
+                                                           android:layout_gravity="center|start"
+                                                           android:background="#FF0000">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

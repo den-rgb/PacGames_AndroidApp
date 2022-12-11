@@ -57,6 +57,12 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
 
 
         binding.swipeRefresh.setOnRefreshListener {
+            val docRefShops = db.collection("shopList").document(user.uid)
+            docRefShops.get().addOnSuccessListener { documentSnapshot ->
+                val shopList = documentSnapshot.toObject<ShopListModel>()
+//
+                binding.recyclerView.adapter = ShopAdapter(shopList!!.shops, this)
+            }
             binding.swipeRefresh.isRefreshing  =false
         }
 

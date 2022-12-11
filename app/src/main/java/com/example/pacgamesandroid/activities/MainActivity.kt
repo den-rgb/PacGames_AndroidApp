@@ -24,10 +24,8 @@ import com.example.pacgamesandroid.databinding.ActivityMainBinding
 import kotlinx.coroutines.tasks.await
 import com.example.pacgamesandroid.helpers.showImagePicker
 import com.example.pacgamesandroid.main.MainApp
-import com.example.pacgamesandroid.models.GameMemStore
-import com.example.pacgamesandroid.models.GameModel
-import com.example.pacgamesandroid.models.Location
-import com.example.pacgamesandroid.models.UserModel
+import com.example.pacgamesandroid.models.*
+import com.example.pacgamesandroid.models.getId
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -102,6 +100,7 @@ class MainActivity : AppCompatActivity(), GameListener{
             game.title = binding.gameTitle.text.toString()
             game.price = binding.price.text.toString()
             game.genre = binding.genreBox.text.toString()
+            game.id = getId()
             if (game.title.isEmpty() || game.price.isEmpty() || game.genre.uppercase()=="CHOOSE GENRE") {
                     Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
                         .show()
@@ -122,7 +121,6 @@ class MainActivity : AppCompatActivity(), GameListener{
                         if (activeUser != null) {
                             app.games.create(game.copy())
                             docRef.update("games", FieldValue.arrayUnion(game.copy()))
-                            GameAdapter(activeUser.games,this).notifyDataSetChanged()
                         }
                     }
                 }

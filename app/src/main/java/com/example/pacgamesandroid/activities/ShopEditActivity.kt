@@ -63,27 +63,22 @@ class ShopEditActivity : AppCompatActivity() {
         val docRefShops = db.collection("shopList").document(user.uid)
         docRefShops.get().addOnSuccessListener { documentSnapshot ->
             val activeShop = documentSnapshot.toObject<ShopModel>()
-            binding.recyclerView2.adapter = ShopEditAdapter(activeShop)
+
+            println("activeshop Games: ${activeShop!!.games}")
             val shopList = documentSnapshot.toObject<ShopListModel>()
+
             var index = shopList!!.shops.indexOf(chosen)
             println("index: ${index} + chosen: ${chosen} \n" +
                     "shops ${shopList} + whole: ${shopList.shops[index].title}")
+            binding.recyclerView2.adapter = ShopEditAdapter(shopList.shops[index])
             binding.locationText.text = shopList.shops[index].title
 
         }
-
-//            val shop_loc = resources.getStringArray()
-//            val locAdapter = ArrayAdapter(this, R.layout.dropdown_item, shop_loc)
-//            binding.autoCompleteTextView.setAdapter(locAdapter)
-        //ArrayAdapter<GameModel>() gameAdapter = new ArrayAdapter<GameModel>(this, R.layout.dropdown_item, shop.games)
-
-
         val docRef = db.collection("users").document(user.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val activeUser = documentSnapshot.toObject<UserModel>()
             if (activeUser != null) {
-                val gameAdapter =
-                    ArrayAdapter(this, R.layout.dropdown_item, app.games.findAllNames(activeUser.games))
+                val gameAdapter = ArrayAdapter(this, R.layout.dropdown_item, app.games.findAllNames(activeUser.games))
                 binding.gameBox.setAdapter(gameAdapter)
                 list = activeUser.games
             }
