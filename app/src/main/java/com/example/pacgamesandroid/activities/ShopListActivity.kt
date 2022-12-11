@@ -56,6 +56,10 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
         }
 
 
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing  =false
+        }
+
 
 
 

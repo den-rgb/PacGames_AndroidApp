@@ -14,7 +14,11 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pacgamesandroid.R
+import com.example.pacgamesandroid.adapters.GameAdapter
+import com.example.pacgamesandroid.adapters.GameListener
+import com.example.pacgamesandroid.databinding.ActivityGameListBinding
 import com.example.pacgamesandroid.databinding.ActivityMainBinding
 
 import kotlinx.coroutines.tasks.await
@@ -40,7 +44,7 @@ import timber.log.Timber
 import timber.log.Timber.i
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), GameListener{
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
 
@@ -94,14 +98,6 @@ class MainActivity : AppCompatActivity(){
 
         registerImagePickerCallback()
 
-//        binding.shopLocation.setOnClickListener {
-//            for (i in location) {
-//                val launcherIntent = Intent(this, MapActivity::class.java)
-//                    .putExtra("location", i)
-//                mapIntentLauncher.launch(launcherIntent)
-//            }
-//        }
-
         binding.gameAdd.setOnClickListener {
             game.title = binding.gameTitle.text.toString()
             game.price = binding.price.text.toString()
@@ -126,6 +122,7 @@ class MainActivity : AppCompatActivity(){
                         if (activeUser != null) {
                             app.games.create(game.copy())
                             docRef.update("games", FieldValue.arrayUnion(game.copy()))
+                            GameAdapter(activeUser.games,this).notifyDataSetChanged()
                         }
                     }
                 }
@@ -179,6 +176,14 @@ class MainActivity : AppCompatActivity(){
         mapIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { i("Map Loaded") }
+    }
+
+    override fun onGameClick(game: GameModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDelete(game: GameModel) {
+        TODO("Not yet implemented")
     }
 
 

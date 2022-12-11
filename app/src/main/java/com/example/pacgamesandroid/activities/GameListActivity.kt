@@ -2,30 +2,28 @@ package com.example.pacgamesandroid.activities
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.pacgamesandroid.R
-
-import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.adapters.GameAdapter
 import com.example.pacgamesandroid.adapters.GameListener
 import com.example.pacgamesandroid.databinding.ActivityGameListBinding
-
+import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.GameModel
 import com.example.pacgamesandroid.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import java.util.Collections.shuffle
 
 
 class GameListActivity : AppCompatActivity(), GameListener {
@@ -41,8 +39,6 @@ class GameListActivity : AppCompatActivity(), GameListener {
         auth = Firebase.auth
         app = application as MainApp
         db = Firebase.firestore
-
-
 
 
         if (auth.currentUser!=null) {
@@ -63,6 +59,19 @@ class GameListActivity : AppCompatActivity(), GameListener {
         setSupportActionBar(binding.toolbar)
 
 
+        binding.swipeRefresh.setOnRefreshListener {
+            val user = auth.currentUser!!
+            val docRef = db.collection("users").document(user.uid)
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                val activeUser = documentSnapshot.toObject<UserModel>()
+                binding.toolbar.title = "WELCOME " + activeUser!!.name.uppercase()
+                val layoutManager = LinearLayoutManager(this)
+                binding.recyclerView.layoutManager = layoutManager
+                binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
+
     }
 
 
@@ -73,6 +82,7 @@ class GameListActivity : AppCompatActivity(), GameListener {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -110,20 +120,34 @@ class GameListActivity : AppCompatActivity(), GameListener {
 
     override fun onDelete(game: GameModel) {
         db = Firebase.firestore
-
+        var u = UserModel()
+//
         val user = auth.currentUser!!
-
+//
         val docRef = db.collection("users").document(user.uid)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
+//        docRef.get().addOnSuccessListener { documentSnapshot ->
+//            val activeUser = documentSnapshot.toObject<UserModel>()
+//            if (activeUser != null) {
+//                app.games.delete(game)
+//                activeUser.games = app.games.games
+//                db.collection("users").document(user.uid).set(activeUser.games)
+//            }
+        val updates = hashMapOf<String, Any>(
+            "games"+".0" to FieldValue.delete()
+        )
+        docRef.update(updates).addOnCompleteListener {
+            docRef.get().addOnSuccessListener {
+                    documentSnapshot ->
             val activeUser = documentSnapshot.toObject<UserModel>()
-            if (activeUser != null) {
-                app.games.delete(game)
-                activeUser.games = app.games.games
-                db.collection("users").document(user.uid).set(activeUser.games)
+            for (i in activeUser!!.games) {
+                docRef.update("games", FieldValue.arrayUnion(i)).addOnSuccessListener { }
+            }
             }
         }
 
-        overridePendingTransition(0, 0);
+
+
+                overridePendingTransition(0, 0);
         finish()
         overridePendingTransition(0, 0);
         startActivity(getIntent())

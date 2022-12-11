@@ -47,7 +47,7 @@ class ShopEditActivity : AppCompatActivity() {
     var list = ArrayList<GameModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    list = arrayListOf()
+        list = arrayListOf()
         binding = CardShopeditBinding.inflate(layoutInflater)
         binding2 = ActivityShopEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -66,10 +66,10 @@ class ShopEditActivity : AppCompatActivity() {
             binding.recyclerView2.adapter = ShopEditAdapter(activeShop)
             val shopList = documentSnapshot.toObject<ShopListModel>()
             var index = shopList!!.shops.indexOf(chosen)
-
-            binding.locationText.text = shopList.shops[index].title
             println("index: ${index} + chosen: ${chosen} \n" +
-                    "shops ${shopList}")
+                    "shops ${shopList} + whole: ${shopList.shops[index].title}")
+            binding.locationText.text = shopList.shops[index].title
+
         }
 
 //            val shop_loc = resources.getStringArray()
@@ -126,14 +126,14 @@ class ShopEditActivity : AppCompatActivity() {
                 var quant = binding.quantiyInput.text.toString()
                 var chosenGame = GameModel()
 
-                    println("active user games: ${list}")
-                    if (list.size != 0) {
-                        for (g in list) {
-                            if ( gamePicked.uppercase()== g.title.uppercase()) {
-                                chosenGame = g
-                            }
+                println("active user games: ${list}")
+                if (list.size != 0) {
+                    for (g in list) {
+                        if ( gamePicked.uppercase()== g.title.uppercase()) {
+                            chosenGame = g
                         }
                     }
+                }
 
 
 
