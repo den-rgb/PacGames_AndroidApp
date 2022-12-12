@@ -101,17 +101,17 @@ class MainActivity : AppCompatActivity(), GameListener{
             game.price = binding.price.text.toString()
             game.genre = binding.genreBox.text.toString()
             game.id = getId()
-            if (game.title.isEmpty() || game.price.isEmpty() || game.genre.uppercase()=="CHOOSE GENRE") {
-                    Snackbar.make(it,R.string.enter_game_title, Snackbar.LENGTH_LONG)
-                        .show()
+            if (game.title.isEmpty() || game.price.isEmpty() || game.genre.uppercase() == "CHOOSE GENRE") {
+                Snackbar.make(it, R.string.enter_game_title, Snackbar.LENGTH_LONG)
+                    .show()
             } else {
                 if (edit) {
-                    docRef.get().addOnSuccessListener { documentSnapshot  ->
+                    docRef.get().addOnSuccessListener { documentSnapshot ->
                         val activeUser = documentSnapshot.toObject<UserModel>()
                         if (activeUser != null) {
                             app.games.update(game.copy())
-                            docRef.update("games",FieldValue.arrayUnion(game.copy()))
-                        }else{
+                            docRef.update("games", FieldValue.arrayUnion(game.copy()))
+                        } else {
                             Toast.makeText(this, "Please log in to update", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -142,13 +142,6 @@ class MainActivity : AppCompatActivity(), GameListener{
 
         registerMapCallback()
     }
-
-    fun addGame() = runBlocking {
-        delay(10000)
-
-    }
-
-
 
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
