@@ -1,14 +1,16 @@
 package com.example.pacgamesandroid.activities
 
 import android.app.Activity
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.pacgamesandroid.R
 import com.example.pacgamesandroid.adapters.GameAdapter
 import com.example.pacgamesandroid.adapters.GameListener
@@ -23,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.util.Collections.shuffle
 
 
 class GameListActivity : AppCompatActivity(), GameListener {
@@ -31,6 +32,7 @@ class GameListActivity : AppCompatActivity(), GameListener {
     private lateinit var binding: ActivityGameListBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+
 
     override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
@@ -72,6 +74,8 @@ class GameListActivity : AppCompatActivity(), GameListener {
             }
         }
 
+
+
     }
 
 
@@ -80,6 +84,25 @@ class GameListActivity : AppCompatActivity(), GameListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+//        val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        val searchItem = menu.findItem(R.id.app_bar_search)
+//        val searchView = searchItem.actionView as androidx.appcompat.widget.SearchView
+//
+//        searchView.setSearchableInfo(manager.getSearchableInfo(componentName))
+//
+//        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                searchView.clearFocus()
+//                searchView.setQuery("",false)
+//                searchItem.collapseActionView()
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                return true
+//            }
+//        })
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -98,7 +121,12 @@ class GameListActivity : AppCompatActivity(), GameListener {
                 val launcherIntent = Intent(this, LogInActiviy::class.java)
                 getResult.launch(launcherIntent)
             }
+
+
+
         }
+
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -120,34 +148,18 @@ class GameListActivity : AppCompatActivity(), GameListener {
 
     override fun onDelete(game: GameModel) {
         db = Firebase.firestore
-        var u = UserModel()
-//
         val user = auth.currentUser!!
-//
-        val docRef = db.collection("users").document(user.uid)
-//        docRef.get().addOnSuccessListener { documentSnapshot ->
-//            val activeUser = documentSnapshot.toObject<UserModel>()
-//            if (activeUser != null) {
-//                app.games.delete(game)
-//                activeUser.games = app.games.games
-//                db.collection("users").document(user.uid).set(activeUser.games)
-//            }
-        val updates = hashMapOf<String, Any>(
-            "games"+".0" to FieldValue.delete()
-        )
-        docRef.update(updates).addOnCompleteListener {
-            docRef.get().addOnSuccessListener {
-                    documentSnapshot ->
+        val docRefUser = db.collection("users").document(user.uid)
+
+        docRefUser.get().addOnSuccessListener { documentSnapshot ->
             val activeUser = documentSnapshot.toObject<UserModel>()
-            for (i in activeUser!!.games) {
-                docRef.update("games", FieldValue.arrayUnion(i)).addOnSuccessListener { }
-            }
+            if (activeUser != null) {
+                app.games.create(game.copy())
+                docRefUser.update("games", FieldValue.arrayRemove(game))
             }
         }
 
-
-
-                overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0);
         finish()
         overridePendingTransition(0, 0);
         startActivity(getIntent())
@@ -169,3 +181,5 @@ class GameListActivity : AppCompatActivity(), GameListener {
 
 
 }
+
+
