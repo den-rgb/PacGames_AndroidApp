@@ -1,13 +1,11 @@
 package com.example.pacgamesandroid.activities
 
 import android.app.Activity
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
+import android.widget.Filterable
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,9 +23,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.util.concurrent.CountDownLatch
 
 
-class GameListActivity : AppCompatActivity(), GameListener {
+class GameListActivity : AppCompatActivity(),GameListener, Filterable {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGameListBinding
     private lateinit var auth: FirebaseAuth
@@ -85,24 +84,20 @@ class GameListActivity : AppCompatActivity(), GameListener {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
 
-//        val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        val searchItem = menu.findItem(R.id.app_bar_search)
-//        val searchView = searchItem.actionView as androidx.appcompat.widget.SearchView
-//
-//        searchView.setSearchableInfo(manager.getSearchableInfo(componentName))
-//
-//        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                searchView.clearFocus()
-//                searchView.setQuery("",false)
-//                searchItem.collapseActionView()
-//                return true
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                return true
-//            }
-//        })
+        val searchItem = menu.findItem(R.id.app_bar_search)
+        val search : androidx.appcompat.widget.SearchView = searchItem.actionView as androidx.appcompat.widget.SearchView
+
+        search.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filter.filter(newText)
+                return true
+            }
+
+        })
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -178,6 +173,58 @@ class GameListActivity : AppCompatActivity(), GameListener {
             }
         }
 
+    override fun getFilter(): android.widget.Filter {
+        val db = FirebaseFirestore.getInstance()
+        val user = auth.currentUser!!
+        val docRefUser = db.collection("users").document(user.uid)
+        var filter = object : android.widget.Filter() {
+            var filterResults = FilterResults()
+            val latch = CountDownLatch(1)
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                if (constraint == null || constraint.isEmpty()) {
+                    latch.countDown()
+                    return filterResults
+                } else {
+                    val searchChar = constraint.toString().toUpperCase()
+                    docRefUser.get().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val documentSnapshot = task.result
+                            val activeUser = documentSnapshot.toObject<UserModel>()
+                            if (activeUser != null) {
+                                println("1: ${activeUser.games}")
+                                val filteredGames = activeUser.games.filter { it.title.toUpperCase().contains(searchChar) }
+                                println("2: ${filteredGames}")
+                                filterResults.values = filteredGames
+                                filterResults.count = filteredGames.size
+                                println("3: ${filterResults.values}")
+                            }
+                        }
+                        latch.countDown()
+                    }
+                }
+                latch.await()
+                println("4: ${filterResults.values}")
+                return filterResults
+            }
+
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                // Update the list being displayed in the UI with the filtered results
+                val filteredGames = results?.values as? List<GameModel>
+                println("5: ${filteredGames}")
+                if (filteredGames != null) {
+                    // Update the list in the UI
+                    (binding.recyclerView.adapter)?.notifyItemRangeChanged(0,filteredGames.size)
+                    val layoutManager = LinearLayoutManager(this@GameListActivity)
+                    binding.recyclerView.layoutManager = layoutManager
+                    binding.recyclerView.adapter = GameAdapter(filteredGames,this@GameListActivity)
+                }
+            }
+
+        }
+        return filter
+    }
 
 
 }
