@@ -1,47 +1,111 @@
 package com.example.pacgamesandroid.activities
 
 import android.app.Activity
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pacgamesandroid.R
-
-import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.adapters.GameAdapter
 import com.example.pacgamesandroid.adapters.GameListener
 import com.example.pacgamesandroid.databinding.ActivityGameListBinding
-
+import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.GameModel
-
+import com.example.pacgamesandroid.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 
 class GameListActivity : AppCompatActivity(), GameListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGameListBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
         binding = ActivityGameListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        auth = Firebase.auth
         app = application as MainApp
+        db = Firebase.firestore
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = GameAdapter(app.games.findAll(), this)
-        binding.toolbar.title = title
+
+        if (auth.currentUser!=null) {
+            val user = auth.currentUser!!
+            val docRef = db.collection("users").document(user.uid)
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                val activeUser = documentSnapshot.toObject<UserModel>()
+                binding.toolbar.title = "WELCOME " + activeUser!!.name.uppercase()
+                val layoutManager = LinearLayoutManager(this)
+                binding.recyclerView.layoutManager = layoutManager
+                binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+            }
+        }else{
+            binding.toolbar.title = title
+            binding.recyclerView.adapter = GameAdapter(app.games.games, this)
+        }
+
         setSupportActionBar(binding.toolbar)
 
+
+        binding.swipeRefresh.setOnRefreshListener {
+            val user = auth.currentUser!!
+            val docRef = db.collection("users").document(user.uid)
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                val activeUser = documentSnapshot.toObject<UserModel>()
+                binding.toolbar.title = "WELCOME " + activeUser!!.name.uppercase()
+                val layoutManager = LinearLayoutManager(this)
+                binding.recyclerView.layoutManager = layoutManager
+                binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
+
+
+
     }
+
+
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+//        val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        val searchItem = menu.findItem(R.id.app_bar_search)
+//        val searchView = searchItem.actionView as androidx.appcompat.widget.SearchView
+//
+//        searchView.setSearchableInfo(manager.getSearchableInfo(componentName))
+//
+//        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                searchView.clearFocus()
+//                searchView.setQuery("",false)
+//                searchItem.collapseActionView()
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                return true
+//            }
+//        })
         return super.onCreateOptionsMenu(menu)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -53,7 +117,16 @@ class GameListActivity : AppCompatActivity(), GameListener {
                 val launcherIntent = Intent(this, ShopListActivity::class.java)
                 getResult.launch(launcherIntent)
             }
+            R.id.item_user -> {
+                val launcherIntent = Intent(this, LogInActiviy::class.java)
+                getResult.launch(launcherIntent)
+            }
+
+
+
         }
+
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -73,14 +146,27 @@ class GameListActivity : AppCompatActivity(), GameListener {
         getClickResult.launch(launcherIntent)
     }
 
-    override fun onDelete(game: GameModel){
-        app.games.delete(game)
+    override fun onDelete(game: GameModel) {
+        db = Firebase.firestore
+        val user = auth.currentUser!!
+        val docRefUser = db.collection("users").document(user.uid)
+
+        docRefUser.get().addOnSuccessListener { documentSnapshot ->
+            val activeUser = documentSnapshot.toObject<UserModel>()
+            if (activeUser != null) {
+                app.games.create(game.copy())
+                docRefUser.update("games", FieldValue.arrayRemove(game))
+            }
+        }
+
         overridePendingTransition(0, 0);
         finish()
         overridePendingTransition(0, 0);
         startActivity(getIntent())
         overridePendingTransition(0, 0);
     }
+
+
 
     private val getClickResult =
         registerForActivityResult(
@@ -92,5 +178,8 @@ class GameListActivity : AppCompatActivity(), GameListener {
             }
         }
 
+
+
 }
+
 

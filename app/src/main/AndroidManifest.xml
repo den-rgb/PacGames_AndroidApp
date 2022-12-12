@@ -14,18 +14,29 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.PacGamesAndroid"
             tools:targetApi="31">
+        <activity
+                android:name=".activities.LogInActiviy"
+                android:exported="false"/>
+        <activity
+                android:name=".activities.CreateUserActivity"
+                android:exported="false"/>
 
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="${MAPS_API_KEY}" />
+                android:value="${MAPS_API_KEY}"/>
+        <meta-data
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts"/>
 
-        <activity android:name=".activities.ShopListActivity"
-                  android:exported="false"
-                  android:label="@string/title_activity_shop"/>
-        <activity android:name=".activities.ShopEditActivity"
-                  android:exported="false"
-                  android:label="@string/title_activity_editShop"/>
+        <activity
+                android:name=".activities.ShopListActivity"
+                android:exported="false"
+                android:label="@string/title_activity_shop"/>
+        <activity
+                android:name=".activities.ShopEditActivity"
+                android:exported="false"
+                android:label="@string/title_activity_editShop"/>
         <activity
                 android:name=".activities.MapActivity"
                 android:exported="false"
@@ -33,9 +44,6 @@
         <activity
                 android:name=".activities.GameListActivity"
                 android:exported="true">
-
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -51,10 +59,6 @@
                     android:name="android.app.lib_name"
                     android:value=""/>
         </activity>
-
     </application>
 
 </manifest>
-
-
-

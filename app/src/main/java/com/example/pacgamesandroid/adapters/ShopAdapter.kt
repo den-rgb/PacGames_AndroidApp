@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pacgamesandroid.databinding.CardShopBinding
+
+
+import com.example.pacgamesandroid.main.MainApp
 import com.example.pacgamesandroid.models.ShopModel
 
 
@@ -11,7 +14,7 @@ import com.example.pacgamesandroid.models.ShopModel
 interface ShopListener {
     fun onShopClick(shop: ShopModel)
 }
-class ShopAdapter constructor(private var shops: List<ShopModel>, private val listener: ShopListener) :
+class ShopAdapter(private var shops: List<ShopModel>, private val listener: ShopListener) :
     RecyclerView.Adapter<ShopAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -21,6 +24,7 @@ class ShopAdapter constructor(private var shops: List<ShopModel>, private val li
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
+
         val shop = shops[holder.adapterPosition]
         holder.bind(shop, listener)
     }

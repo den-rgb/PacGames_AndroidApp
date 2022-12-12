@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "361826050752",
+    "project_id": "pacgames-a3a9f",
+    "storage_bucket": "pacgames-a3a9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361826050752:android:e2cb054ccddcdbe16a0325",
+        "android_client_info": {
+          "package_name": "com.example.pacgamesandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361826050752-5c1gt7luea7davhro7s9vokbrj4856iu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCW82uaIzJcHw94gPKrNO1ZMrI_CUccew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361826050752-5c1gt7luea7davhro7s9vokbrj4856iu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

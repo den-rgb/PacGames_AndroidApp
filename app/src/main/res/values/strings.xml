@@ -15,6 +15,7 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_shop">Gamestops</string>
     <string name="title_activity_editShop">Gamestops</string>
+    <string name="item_user">Log In</string>
 
 
     <string-array name="game_genres">
@@ -24,4 +25,13 @@
         <item>Puzzle</item>
         <item>Shooter</item>
     </string-array>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>
