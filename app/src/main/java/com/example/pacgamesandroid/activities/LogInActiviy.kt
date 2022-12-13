@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -40,7 +41,7 @@ class LogInActiviy : AppCompatActivity() {
 
 
         db = Firebase.firestore
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
         app = application as MainApp
 
         binding.signUpText.setOnClickListener {
@@ -101,11 +102,6 @@ class LogInActiviy : AppCompatActivity() {
             val account: GoogleSignInAccount? =completedTask.getResult(ApiException::class.java)
             if (account != null) {
                 UpdateUI(account)
-                val user = auth.currentUser!!
-                SavedPreference.getUsername(this)
-                    ?.let { SavedPreference.getEmail(this)?.let { it1 -> UserModel(user.uid, it, it1, arrayListOf()) } }
-                    ?.let { db.collection("users").document(user.uid).set(it) }
-                println("name: ${SavedPreference.getUsername(this)} + email: ${SavedPreference.getEmail(this)}")
             }
         } catch (e:ApiException){
             Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show()
@@ -120,6 +116,12 @@ class LogInActiviy : AppCompatActivity() {
                 SavedPreference.setEmail(this,account.email.toString())
                 SavedPreference.setUsername(this,account.displayName.toString())
                 val intent = Intent(this, GameListActivity::class.java)
+                val user = auth.currentUser!!
+                println("user uid2: ${user.uid}")
+                SavedPreference.getUsername(this)
+                    ?.let { SavedPreference.getEmail(this)?.let { it1 -> UserModel(user.uid, it, it1, arrayListOf()) } }
+                    ?.let { db.collection("users").document(user.uid).set(it) }
+                println("name: ${SavedPreference.getUsername(this)} + email: ${SavedPreference.getEmail(this)}")
                 startActivity(intent)
                 finish()
             }

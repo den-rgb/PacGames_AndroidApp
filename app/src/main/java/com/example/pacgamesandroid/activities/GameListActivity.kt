@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import timber.log.Timber
 import java.util.concurrent.CountDownLatch
 
 
@@ -43,26 +44,23 @@ class GameListActivity : AppCompatActivity(),GameListener, Filterable {
         db = Firebase.firestore
 
 
-
-//        if(GoogleSignIn.getLastSignedInAccount(this)!=null){
-//            binding.toolbar.title = "WELCOME " + SavedPreference.getUsername(this)!!.uppercase()
-//            val layoutManager = LinearLayoutManager(this)
-//            binding.recyclerView.layoutManager = layoutManager
-//            binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
-//        }
-
-
         if (auth.currentUser!=null) {
             val user = auth.currentUser!!
-            println("user: ${user.email}")
+            println("user uid: ${user.uid}")
             val docRef = db.collection("users").document(user.uid)
             docRef.get().addOnSuccessListener { documentSnapshot ->
-                val activeUser = documentSnapshot.toObject<UserModel>()
-//                println("username: ${activeUser!!.name}")
-//                binding.toolbar.title = "WELCOME " + activeUser.name.uppercase()
-                val layoutManager = LinearLayoutManager(this)
-                binding.recyclerView.layoutManager = layoutManager
-                binding.recyclerView.adapter = GameAdapter(activeUser!!.games, this)
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    val activeUser = documentSnapshot.toObject<UserModel>()
+                    println("username: ${activeUser!!.name}")
+                    binding.toolbar.title = "WELCOME " + activeUser.name.uppercase()
+                    val layoutManager = LinearLayoutManager(this)
+                    binding.recyclerView.layoutManager = layoutManager
+                    binding.recyclerView.adapter = GameAdapter(activeUser.games, this)
+                } else {
+                    Timber.i("doc doesnt exist")
+                    binding.toolbar.title = title
+                    binding.recyclerView.adapter = GameAdapter(app.games.games, this)
+                }
             }
         }else{
             binding.toolbar.title = title
