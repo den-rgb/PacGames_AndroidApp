@@ -43,9 +43,9 @@ class ShopListActivity : AppCompatActivity(), ShopListener {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         val user = auth.currentUser!!
-//        if (app.shops.shops.size == 0){
-//            app.shops.create()
-//        }
+        if (app.shops.shops.size == 0){
+            app.shops.create()
+        }
 
 
         val docRefShops = db.collection("shopList").document(user.uid)

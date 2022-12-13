@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "361826050752",
+    "firebase_url": "https://pacgames-a3a9f-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "pacgames-a3a9f",
     "storage_bucket": "pacgames-a3a9f.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "361826050752-hqlem8ih2aaph8ut0ek0jln7j93u6jbh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pacgamesandroid",
+            "certificate_hash": "28a397653ca3e06e3270e375bbc04d1e300c6fc0"
+          }
+        },
         {
           "client_id": "361826050752-5c1gt7luea7davhro7s9vokbrj4856iu.apps.googleusercontent.com",
           "client_type": 3
