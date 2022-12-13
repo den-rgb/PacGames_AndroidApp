@@ -21,6 +21,10 @@
                 android:name=".activities.CreateUserActivity"
                 android:exported="false"/>
 
+        <activity
+                android:name=".activities.GameListActivity"
+                android:exported="true"/>
+
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
@@ -42,7 +46,7 @@
                 android:exported="false"
                 android:label="@string/title_activity_map"/>
         <activity
-                android:name=".activities.GameListActivity"
+                android:name=".activities.splashActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
