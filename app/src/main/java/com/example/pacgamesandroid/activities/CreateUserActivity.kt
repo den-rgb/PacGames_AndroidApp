@@ -56,10 +56,6 @@ class CreateUserActivity : AppCompatActivity() {
                         if (pass == confirm) {
                             db.collection("users").document(user.uid).set(UserModel(user.uid,name,email, arrayListOf()))
                             app.shops.create()
-//                            for (i in app.shops.shops) {
-//                                db.collection("shopList").document(user.uid).set(i)
-//                            }
-//                            db.collection("shopList").document(user.uid).set(ShopListModel(arrayListOf()))
                             println("shoplist size ${app.shopList.shops}")
 
 
@@ -74,16 +70,6 @@ class CreateUserActivity : AppCompatActivity() {
             }else{
                 Toast.makeText(this,"Please fill in all fields",Toast.LENGTH_SHORT).show()
             }
-//            db.collection("users").get().addOnCompleteListener{
-//                var res : StringBuffer = StringBuffer()
-//                if (it.isSuccessful){
-//                    for (doc in it.result!!){
-//                        res.append(doc.data.getValue("name")).append(" ").append(doc.data.
-//                        getValue("email")).append(" ").append(doc.data.getValue("password")).append("\n")
-//                    }
-//                }
-//                //set text
-//            }
         }
 
         binding.goBack2.setOnClickListener {

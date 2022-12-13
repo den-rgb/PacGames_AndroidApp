@@ -101,6 +101,15 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintBottom_toTopOf="@+id/textView7" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="90dp"/>
+    <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleSignInButton"
+            android:layout_width="362dp"
+            android:layout_height="43dp"
+            android:layout_weight="1" android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp" android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/LogInBut" android:layout_marginTop="29dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"/>
     <TextView
             android:text="__________________________________"
             android:layout_width="338dp"
